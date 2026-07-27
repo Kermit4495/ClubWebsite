@@ -1,0 +1,988 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Numerical methods · interactive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F6F5; --ink:#10202B; --muted:#5C6B72;
+    --grid:#E1E6E4; --line:#CBD3D1;
+    --curve:#1D4E89; --accent:#D64550; --accent-soft:#E88A90;
+    --band:#E8A93C; --band-line:#C9871E;
+    --keep:#1B9C7E; --card:#FBFCFB;
+    --disp:'Space Grotesk',system-ui,sans-serif;
+    --body:system-ui,-apple-system,'Segoe UI',sans-serif;
+    --mono:'IBM Plex Mono',ui-monospace,monospace;
+  }
+  *{box-sizing:border-box}
+  body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--body); line-height:1.55; -webkit-font-smoothing:antialiased}
+  .wrap{max-width:940px; margin:0 auto; padding:32px 20px 56px}
+  header{margin-bottom:20px}
+  .eyebrow{font-family:var(--mono); font-size:12px; letter-spacing:.14em; text-transform:uppercase; color:var(--band-line); margin:0 0 6px}
+  h1{font-family:var(--disp); font-weight:600; font-size:32px; letter-spacing:-.02em; margin:0 0 8px; line-height:1.05}
+  h1 span{color:var(--muted); font-weight:400}
+  .lede{color:var(--muted); font-size:15px; max-width:66ch; margin:0}
+
+  /* tabs */
+  .tabs{display:flex; gap:6px; flex-wrap:wrap; margin:22px 0 18px; border-bottom:0.5px solid var(--line); padding-bottom:0}
+  .tab{
+    font-family:var(--disp); font-size:14px; font-weight:500; color:var(--muted);
+    background:transparent; border:0; border-bottom:2px solid transparent;
+    padding:9px 14px 11px; cursor:pointer; transition:color .12s,border-color .12s; margin-bottom:-1px;
+  }
+  .tab:hover{color:var(--ink)}
+  .tab.active{color:var(--ink); border-bottom-color:var(--accent)}
+  .tab .n{font-family:var(--mono); font-size:11px; color:var(--band-line); margin-right:7px}
+
+  .view{display:none}
+  .view.active{display:block}
+
+  .grid{display:grid; grid-template-columns:1.55fr 1fr; gap:18px; align-items:start}
+  @media(max-width:720px){ .grid{grid-template-columns:1fr} }
+
+  .plot-card{background:var(--card); border:0.5px solid var(--line); border-radius:14px; padding:14px; overflow:hidden}
+  svg{display:block; width:100%; height:auto}
+
+  .panel{display:flex; flex-direction:column; gap:14px}
+  .block{background:var(--card); border:0.5px solid var(--line); border-radius:14px; padding:16px}
+  .block h2{font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted); font-weight:500; margin:0 0 12px}
+  .fx-note{font-size:12.5px; color:var(--muted); margin:0 0 8px; min-height:1em}
+  label.small{font-size:12px; color:var(--muted); display:block; margin-bottom:4px}
+
+  input[type=text],input[type=number]{
+    font-family:var(--mono); font-size:14px; color:var(--ink);
+    background:var(--paper); border:0.5px solid var(--line);
+    border-radius:8px; padding:8px 10px; width:100%;
+  }
+  input.fx{font-size:15px; color:var(--curve)}
+  input[type=text]:focus,input[type=number]:focus{outline:2px solid var(--curve); outline-offset:1px}
+  .fx-wrap{position:relative}
+  .fx-prefix{position:absolute; left:10px; top:50%; transform:translateY(-50%); font-family:var(--mono); font-size:15px; color:var(--muted); pointer-events:none}
+  input.fx{padding-left:62px}
+
+  .chips{display:flex; gap:6px; flex-wrap:wrap; margin-top:8px}
+  .chip{font-family:var(--mono); font-size:12px; color:var(--muted); background:var(--paper); border:0.5px solid var(--line); border-radius:7px; padding:5px 9px; cursor:pointer; transition:background .12s,color .12s}
+  .chip:hover{background:#EAEEEC; color:var(--ink)}
+
+  .ab{display:flex; gap:10px; margin-top:10px}
+  .ab>div{flex:1}
+  .row1{margin-top:10px}
+
+  .msg{font-size:12.5px; margin-top:10px; min-height:1.2em; color:var(--muted); font-family:var(--mono)}
+  .msg.ok{color:var(--keep)} .msg.bad{color:var(--accent)}
+
+  /* learning-rate block — quiet, matches surrounding type */
+  .eta-head{display:flex; align-items:baseline; justify-content:space-between; margin-bottom:8px}
+  .eta-head .lab{font-family:var(--mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--muted)}
+  .eta-val{font-family:var(--mono); font-size:15px; font-weight:500; color:var(--ink)}
+  input[type=range].eta{width:100%; accent-color:var(--accent)}
+  .eta-scale{display:flex; justify-content:space-between; font-family:var(--mono); font-size:10.5px; color:var(--muted); margin-top:5px}
+
+  .controls{display:flex; gap:8px; flex-wrap:wrap}
+  button.act{font-family:var(--disp); font-size:14px; font-weight:500; color:var(--ink); background:var(--paper); border:0.5px solid var(--line); border-radius:9px; padding:9px 14px; cursor:pointer; display:inline-flex; align-items:center; gap:6px; transition:background .12s,transform .06s}
+  button.act:hover{background:#EAEEEC} button.act:active{transform:scale(.97)}
+  button.act.primary{background:var(--ink); color:var(--paper); border-color:var(--ink)}
+  button.act.primary:hover{background:#233541}
+  button.act:disabled{opacity:.4; cursor:not-allowed}
+
+  .speed{display:flex; align-items:center; gap:10px; margin-top:10px}
+  .speed label{font-size:12px; color:var(--muted); min-width:44px}
+  .speed input{flex:1; accent-color:var(--curve)}
+
+  .stats{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+  .stat{background:var(--paper); border-radius:9px; padding:10px 12px}
+  .stat .k{font-size:11px; color:var(--muted); font-family:var(--mono); letter-spacing:.06em}
+  .stat .v{font-family:var(--mono); font-size:17px; font-weight:500; margin-top:3px}
+  .stat .v.keep{color:var(--keep)} .stat .v.bad{color:var(--accent)}
+
+  .log-card{margin-top:18px}
+  table{width:100%; border-collapse:collapse; font-family:var(--mono); font-size:12.5px}
+  th,td{text-align:right; padding:7px 8px; border-bottom:0.5px solid var(--grid)}
+  th{color:var(--muted); font-weight:500; font-size:11px; letter-spacing:.05em; text-transform:uppercase}
+  th:first-child,td:first-child{text-align:center; color:var(--muted)}
+  td.hl{color:var(--accent)} td.hl2{color:var(--band-line)}
+  tbody tr:last-child td{font-weight:500}
+  tbody tr.converged td{color:var(--keep)}
+  .tbl-scroll{max-height:260px; overflow:auto}
+
+  .hint{font-size:12px; color:var(--muted); margin-top:12px; font-family:var(--mono)}
+  .syntax{font-size:11.5px; color:var(--muted); margin-top:9px; font-family:var(--mono); line-height:1.7}
+  @media(prefers-reduced-motion:reduce){ *{transition:none!important} }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <p class="eyebrow">interactive numerics</p>
+    <h1>Root-finding &amp; optimization</h1>
+  </header>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-t="bi"><span class="n">01</span>Bisection</button>
+    <button class="tab" data-t="nw"><span class="n">02</span>Newton</button>
+    <button class="tab" data-t="gd"><span class="n">03</span>Gradient descent</button>
+    <button class="tab" data-t="ad"><span class="n">04</span>Adam</button>
+  </div>
+
+  <!-- ===================== BISECTION ===================== -->
+  <section class="view active" id="view-bi">
+    <div class="grid">
+      <div class="plot-card">
+        <svg viewBox="0 0 600 400" role="img" aria-label="Bisection interval narrowing toward a root">
+          <defs><clipPath id="clip-bi"><rect x="46" y="18" width="538" height="348"/></clipPath></defs>
+          <g id="bi-static"></g><g id="bi-dyn"></g>
+        </svg>
+      </div>
+      <div class="panel">
+        <div class="block">
+          <h2>Function &amp; interval</h2>
+          <div class="fx-wrap"><span class="fx-prefix">f(x)=</span><input class="fx" id="bi-fx" type="text" value="x^3 - x - 2"></div>
+          <div class="chips" id="bi-chips"></div>
+          <div class="ab">
+            <div><label class="small">a</label><input id="bi-a" type="number" step="0.1" value="1"></div>
+            <div><label class="small">b</label><input id="bi-b" type="number" step="0.1" value="2"></div>
+          </div>
+          <p class="msg" id="bi-msg"></p>
+        </div>
+        <div class="block">
+          <h2>Run</h2>
+          <div class="controls">
+            <button class="act primary" id="bi-play"><span class="pi">▶</span> <span class="pt">Play</span></button>
+            <button class="act" id="bi-step">Step →</button>
+            <button class="act" id="bi-reset">↺ Reset</button>
+          </div>
+          <div class="speed"><label>Speed</label><input type="range" min="180" max="1400" value="700" step="20" id="bi-speed"></div>
+          <p class="hint">Shortcuts: space = play/pause · → = step</p>
+        </div>
+        <div class="block">
+          <h2>Current state</h2>
+          <div class="stats">
+            <div class="stat"><div class="k">iteration n</div><div class="v" id="bi-sN">0</div></div>
+            <div class="stat"><div class="k">estimate c</div><div class="v" id="bi-sC">—</div></div>
+            <div class="stat"><div class="k">f(c)</div><div class="v" id="bi-sFc">—</div></div>
+            <div class="stat"><div class="k">error bound</div><div class="v" id="bi-sErr">—</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="block log-card">
+      <h2>Iteration log</h2>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>n</th><th>a</th><th>b</th><th>c = (a+b)/2</th><th>f(c)</th><th>width</th></tr></thead>
+        <tbody id="bi-log"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- ===================== NEWTON ===================== -->
+  <section class="view" id="view-nw">
+    <div class="grid">
+      <div class="plot-card">
+        <svg viewBox="0 0 600 400" role="img" aria-label="Newton tangent steps toward a root">
+          <defs><clipPath id="clip-nw"><rect x="46" y="18" width="538" height="348"/></clipPath></defs>
+          <g id="nw-static"></g><g id="nw-dyn"></g>
+        </svg>
+      </div>
+      <div class="panel">
+        <div class="block">
+          <h2>Function &amp; start point</h2>
+          <div class="fx-wrap"><span class="fx-prefix">f(x)=</span><input class="fx" id="nw-fx" type="text" value="x^2 - 2"></div>
+          <div class="chips" id="nw-chips"></div>
+          <div class="row1"><label class="small">start x₀</label><input id="nw-x0" type="number" step="0.1" value="4"></div>
+          <p class="msg" id="nw-msg"></p>
+        </div>
+        <div class="block">
+          <h2>Run</h2>
+          <div class="controls">
+            <button class="act primary" id="nw-play"><span class="pi">▶</span> <span class="pt">Play</span></button>
+            <button class="act" id="nw-step">Step →</button>
+            <button class="act" id="nw-reset">↺ Reset</button>
+          </div>
+          <div class="speed"><label>Speed</label><input type="range" min="180" max="1400" value="720" step="20" id="nw-speed"></div>
+          <p class="hint">Shortcuts: space = play/pause · → = step</p>
+        </div>
+        <div class="block">
+          <h2>Current state</h2>
+          <div class="stats">
+            <div class="stat"><div class="k">iteration n</div><div class="v" id="nw-sN">0</div></div>
+            <div class="stat"><div class="k">estimate xₙ</div><div class="v" id="nw-sX">—</div></div>
+            <div class="stat"><div class="k">f(xₙ)</div><div class="v" id="nw-sFx">—</div></div>
+            <div class="stat"><div class="k">step |Δx|</div><div class="v" id="nw-sDx">—</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="block log-card">
+      <h2>Iteration log</h2>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>n</th><th>xₙ</th><th>f(xₙ)</th><th>f′(xₙ)</th><th>xₙ₊₁</th><th>|Δx|</th></tr></thead>
+        <tbody id="nw-log"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- ===================== GRADIENT DESCENT ===================== -->
+  <section class="view" id="view-gd">
+    <div class="grid">
+      <div class="plot-card">
+        <svg viewBox="0 0 600 400" role="img" aria-label="Gradient descent steps rolling down a curve">
+          <defs>
+            <clipPath id="clip-gd"><rect x="46" y="18" width="538" height="348"/></clipPath>
+            <marker id="ah-gd" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M1 1L8 5L1 9" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+          <g id="gd-static"></g><g id="gd-dyn"></g>
+        </svg>
+      </div>
+      <div class="panel">
+        <div class="block">
+          <div class="eta-head"><span class="lab">learning rate</span><span class="eta-val" id="gd-etaVal">η = 0.10</span></div>
+          <input type="range" class="eta" min="0.01" max="1.20" value="0.10" step="0.01" id="gd-eta">
+          <div class="eta-scale"><span>0.01</span><span>tiny · steady · overshoot · diverge</span><span>1.20</span></div>
+        </div>
+        <div class="block">
+          <h2>Function &amp; start</h2>
+          <div class="fx-wrap"><span class="fx-prefix">f(x)=</span><input class="fx" id="gd-fx" type="text" value="x^2"></div>
+          <div class="chips" id="gd-chips"></div>
+          <div class="row1"><label class="small">start x₀</label><input id="gd-x0" type="number" step="0.1" value="8"></div>
+          <p class="msg" id="gd-msg"></p>
+        </div>
+        <div class="block">
+          <h2>Run</h2>
+          <div class="controls">
+            <button class="act primary" id="gd-play"><span class="pi">▶</span> <span class="pt">Play</span></button>
+            <button class="act" id="gd-step">Step →</button>
+            <button class="act" id="gd-reset">↺ Reset</button>
+          </div>
+          <div class="speed"><label>Speed</label><input type="range" min="180" max="1400" value="720" step="20" id="gd-speed"></div>
+          <p class="hint">Shortcuts: space = play/pause · → = step</p>
+        </div>
+        <div class="block">
+          <h2>Current state</h2>
+          <div class="stats">
+            <div class="stat"><div class="k">iteration n</div><div class="v" id="gd-sN">0</div></div>
+            <div class="stat"><div class="k">position xₙ</div><div class="v" id="gd-sX">—</div></div>
+            <div class="stat"><div class="k">f(xₙ)</div><div class="v" id="gd-sFx">—</div></div>
+            <div class="stat"><div class="k">slope f′(xₙ)</div><div class="v" id="gd-sG">—</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="block log-card">
+      <h2>Iteration log</h2>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>n</th><th>xₙ</th><th>f(xₙ)</th><th>f′(xₙ)</th><th>−η·f′</th><th>xₙ₊₁</th></tr></thead>
+        <tbody id="gd-log"></tbody>
+      </table></div>
+    </div>
+  </section>
+
+  <!-- ===================== ADAM ===================== -->
+  <section class="view" id="view-ad">
+    <div class="grid">
+      <div class="plot-card">
+        <svg viewBox="0 0 600 400" role="img" aria-label="Adam optimizer steps down a curve">
+          <defs>
+            <clipPath id="clip-ad"><rect x="46" y="18" width="538" height="348"/></clipPath>
+            <marker id="ah-ad" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+              <path d="M1 1L8 5L1 9" fill="none" stroke="var(--accent)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            </marker>
+          </defs>
+          <g id="ad-static"></g><g id="ad-dyn"></g>
+        </svg>
+      </div>
+      <div class="panel">
+        <div class="block">
+          <div class="eta-head"><span class="lab">learning rate</span><span class="eta-val" id="ad-etaVal">η = 0.60</span></div>
+          <input type="range" class="eta" min="0.02" max="2.00" value="0.60" step="0.02" id="ad-eta">
+          <div class="eta-scale"><span>0.02</span><span>adaptive step, momentum-smoothed</span><span>2.00</span></div>
+        </div>
+        <div class="block">
+          <h2>Function &amp; start</h2>
+          <div class="fx-wrap"><span class="fx-prefix">f(x)=</span><input class="fx" id="ad-fx" type="text" value="x^2 + 3*sin(2*x)"></div>
+          <div class="chips" id="ad-chips"></div>
+          <div class="row1"><label class="small">start x₀</label><input id="ad-x0" type="number" step="0.1" value="8"></div>
+          <div class="ab">
+            <div><label class="small">β₁ (momentum)</label><input id="ad-b1" type="number" step="0.01" min="0" max="0.999" value="0.9"></div>
+            <div><label class="small">β₂ (rmsprop)</label><input id="ad-b2" type="number" step="0.001" min="0" max="0.99999" value="0.999"></div>
+          </div>
+          <p class="msg" id="ad-msg"></p>
+        </div>
+        <div class="block">
+          <h2>Run</h2>
+          <div class="controls">
+            <button class="act primary" id="ad-play"><span class="pi">▶</span> <span class="pt">Play</span></button>
+            <button class="act" id="ad-step">Step →</button>
+            <button class="act" id="ad-reset">↺ Reset</button>
+          </div>
+          <div class="speed"><label>Speed</label><input type="range" min="180" max="1400" value="760" step="20" id="ad-speed"></div>
+          <p class="hint">Shortcuts: space = play/pause · → = step</p>
+        </div>
+        <div class="block">
+          <h2>Current state</h2>
+          <div class="stats">
+            <div class="stat"><div class="k">iteration t</div><div class="v" id="ad-sN">0</div></div>
+            <div class="stat"><div class="k">position xₜ</div><div class="v" id="ad-sX">—</div></div>
+            <div class="stat"><div class="k">m̂ (1st moment)</div><div class="v" id="ad-sM">—</div></div>
+            <div class="stat"><div class="k">v̂ (2nd moment)</div><div class="v" id="ad-sV">—</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="block log-card">
+      <h2>Iteration log</h2>
+      <div class="tbl-scroll"><table>
+        <thead><tr><th>t</th><th>xₜ</th><th>g = f′</th><th>m̂</th><th>√v̂</th><th>Δx</th><th>xₜ₊₁</th></tr></thead>
+        <tbody id="ad-log"></tbody>
+      </table></div>
+    </div>
+  </section>
+</div>
+
+<script>
+(function(){
+  "use strict";
+  var $ = function(id){ return document.getElementById(id); };
+  var RUNNERS = {};
+
+  /* ---------- safe expression parser (recursive descent, no eval) ---------- */
+  var FN1 = {
+    sin:Math.sin, cos:Math.cos, tan:Math.tan,
+    asin:Math.asin, acos:Math.acos, atan:Math.atan,
+    sinh:Math.sinh, cosh:Math.cosh, tanh:Math.tanh,
+    exp:Math.exp, sqrt:Math.sqrt, abs:Math.abs,
+    log:Math.log, ln:Math.log, log10:function(x){return Math.log(x)/Math.LN10;},
+    log2:function(x){return Math.log(x)/Math.LN2;},
+    sign:Math.sign, floor:Math.floor, ceil:Math.ceil, round:Math.round
+  };
+  var CONST = { pi:Math.PI, e:Math.E, tau:2*Math.PI };
+
+  function tokenize(src){
+    var s = src.toLowerCase().replace(/\s+/g,'');
+    var toks = [], i = 0, re = /^(\d+\.?\d*|\.\d+)/;
+    while(i < s.length){
+      var c = s[i];
+      if(re.test(s.slice(i))){ var m = s.slice(i).match(re)[0]; toks.push({t:'num',v:parseFloat(m)}); i += m.length; }
+      else if(/[a-z_]/.test(c)){ var j=i+1; while(j<s.length && /[a-z0-9_]/.test(s[j])) j++; toks.push({t:'id',v:s.slice(i,j)}); i=j; }
+      else if('+-*/^(),'.indexOf(c) >= 0){ toks.push({t:'op',v:c}); i++; }
+      else throw new Error('bad char "'+c+'"');
+    }
+    return toks;
+  }
+
+  // Grammar:  expr  = term (('+'|'-') term)*
+  //           term  = unary (('*'|'/') unary)*
+  //           unary = ('-'|'+') unary | power
+  //           power = atom ('^' unary)?          // right-assoc; exponent binds tighter than unary minus
+  //           atom  = num | const | func '(' expr ')' | '(' expr ')' | 'x'
+  function parse(src){
+    var toks = tokenize(src), pos = 0;
+    function peek(){ return toks[pos]; }
+    function eat(v){ var t=toks[pos]; if(!t || (v && t.v!==v)) throw new Error('expected '+(v||'token')); pos++; return t; }
+
+    function expr(){
+      var node = term();
+      while(peek() && peek().t==='op' && (peek().v==='+'||peek().v==='-')){
+        var op = eat().v, r = term(); node = mk(op, node, r);
+      }
+      return node;
+    }
+    function term(){
+      var node = unary();
+      while(peek() && peek().t==='op' && (peek().v==='*'||peek().v==='/')){
+        var op = eat().v, r = unary(); node = mk(op, node, r);
+      }
+      return node;
+    }
+    function unary(){
+      if(peek() && peek().t==='op' && (peek().v==='-'||peek().v==='+')){
+        var op = eat().v, u = unary();
+        return op==='-' ? (function(f){return function(x){return -f(x);};})(u) : u;
+      }
+      return power();
+    }
+    function power(){
+      var base = atom();
+      if(peek() && peek().t==='op' && peek().v==='^'){ eat('^'); var e = unary(); return mk('^', base, e); }
+      return base;
+    }
+    function atom(){
+      var t = peek();
+      if(!t) throw new Error('unexpected end');
+      if(t.t==='num'){ eat(); var v=t.v; return function(){return v;}; }
+      if(t.t==='op' && t.v==='('){ eat('('); var e=expr(); eat(')'); return e; }
+      if(t.t==='id'){
+        eat();
+        var name = t.v;
+        if(peek() && peek().t==='op' && peek().v==='('){
+          eat('('); var arg = expr(); eat(')');
+          var fn = FN1[name];
+          if(!fn) throw new Error('unknown function '+name);
+          return function(x){ return fn(arg(x)); };
+        }
+        if(name==='x') return function(x){ return x; };
+        if(name in CONST){ var cv=CONST[name]; return function(){return cv;}; }
+        throw new Error('unknown symbol '+name);
+      }
+      throw new Error('unexpected '+t.v);
+    }
+    function mk(op, a, b){
+      switch(op){
+        case '+': return function(x){return a(x)+b(x);};
+        case '-': return function(x){return a(x)-b(x);};
+        case '*': return function(x){return a(x)*b(x);};
+        case '/': return function(x){return a(x)/b(x);};
+        case '^': return function(x){return Math.pow(a(x),b(x));};
+      }
+    }
+    var root = expr();
+    if(pos !== toks.length) throw new Error('trailing input');
+    return root;
+  }
+
+  function compile(src){
+    try{
+      var f = parse(src);
+      // smoke-test at a few points
+      var ok = false;
+      for(var k=-3;k<=3;k++){ if(isFinite(f(k+0.13))){ ok=true; break; } }
+      if(!ok) return null;
+      return f;
+    }catch(e){ return null; }
+  }
+  // central-difference derivative (works for any user function)
+  function deriv(f, x){
+    var h = 1e-5 * (1 + Math.abs(x));
+    return (f(x+h) - f(x-h)) / (2*h);
+  }
+
+  /* ---------- shared plotting geometry (x fixed to [-10,10]) ---------- */
+  var W=600, H=400, M={l:46,r:16,t:18,b:34};
+  var PL=M.l, PR=W-M.r, PT=M.t, PB=H-M.b, PW=PR-PL, PH=PB-PT;
+  var XMIN=-10, XMAX=10;
+  var reduced = window.matchMedia('(prefers-reduced-motion:reduce)').matches;
+
+  function fmt(v,d){
+    if(!isFinite(v)) return "—";
+    var a=Math.abs(v);
+    if(a!==0 && (a>=1e5 || a<1e-4)) return v.toExponential(3);
+    return v.toFixed(d===undefined?5:d);
+  }
+  function niceStep(r){ var raw=r/6, mag=Math.pow(10,Math.floor(Math.log10(raw))), n=raw/mag; return (n<1.5?1:n<3?2:n<7?5:10)*mag; }
+  function quantile(sorted, q){
+    if(!sorted.length) return 0;
+    var p=(sorted.length-1)*q, lo=Math.floor(p), hi=Math.ceil(p);
+    if(lo===hi) return sorted[lo];
+    return sorted[lo]+(sorted[hi]-sorted[lo])*(p-lo);
+  }
+  // robust y-range on [-10,10]; always include the given anchor points and 0
+  function yRange(f, anchors){
+    var ys=[];
+    for(var i=0;i<=400;i++){ var x=XMIN+(XMAX-XMIN)*i/400, y=f(x); if(isFinite(y)) ys.push(y); }
+    ys.sort(function(a,b){return a-b;});
+    var lo=quantile(ys,0.02), hi=quantile(ys,0.98);
+    (anchors||[]).forEach(function(a){ if(isFinite(a)){ if(a<lo)lo=a; if(a>hi)hi=a; } });
+    if(lo>0) lo=0; if(hi<0) hi=0;
+    if(hi-lo < 1e-6){ lo-=1; hi+=1; }
+    var m=0.12*(hi-lo); return {ymin:lo-m, ymax:hi+m};
+  }
+
+  /* ---------- a plotter bound to one method's <g> elements & view ---------- */
+  function makePlot(prefix, clipId){
+    var gStatic=$(prefix+'-static'), gDyn=$(prefix+'-dyn');
+    var view={ymin:-1,ymax:1};
+    function SX(x){ return PL+(x-XMIN)/(XMAX-XMIN)*PW; }
+    function SY(y){ return PB-(y-view.ymin)/(view.ymax-view.ymin)*PH; }
+    function cx(p){ return Math.max(PL,Math.min(PR,p)); }
+    function cy(p){ return Math.max(PT,Math.min(PB,p)); }
+    function setView(r){ view.ymin=r.ymin; view.ymax=r.ymax; }
+    function drawStatic(f){
+      var s='', xs=niceStep(XMAX-XMIN), ys=niceStep(view.ymax-view.ymin);
+      for(var gx=Math.ceil(XMIN/xs)*xs; gx<=XMAX+1e-9; gx+=xs){
+        var X=SX(gx);
+        s+='<line x1="'+X.toFixed(1)+'" y1="'+PT+'" x2="'+X.toFixed(1)+'" y2="'+PB+'" stroke="var(--grid)" stroke-width="1"/>';
+        s+='<text x="'+X.toFixed(1)+'" y="'+(PB+16)+'" fill="var(--muted)" font-size="10" font-family="var(--mono)" text-anchor="middle">'+(+gx.toFixed(2))+'</text>';
+      }
+      for(var gy=Math.ceil(view.ymin/ys)*ys; gy<=view.ymax+1e-9; gy+=ys){
+        var Y=SY(gy);
+        s+='<line x1="'+PL+'" y1="'+Y.toFixed(1)+'" x2="'+PR+'" y2="'+Y.toFixed(1)+'" stroke="var(--grid)" stroke-width="1"/>';
+        s+='<text x="'+(PL-6)+'" y="'+(Y+3).toFixed(1)+'" fill="var(--muted)" font-size="10" font-family="var(--mono)" text-anchor="end">'+(+gy.toFixed(2))+'</text>';
+      }
+      // axes
+      var Y0=SY(0); s+='<line x1="'+PL+'" y1="'+Y0.toFixed(1)+'" x2="'+PR+'" y2="'+Y0.toFixed(1)+'" stroke="var(--line)" stroke-width="1.5"/>';
+      var X0=SX(0); if(X0>=PL&&X0<=PR) s+='<line x1="'+X0.toFixed(1)+'" y1="'+PT+'" x2="'+X0.toFixed(1)+'" y2="'+PB+'" stroke="var(--line)" stroke-width="1"/>';
+      // curve (segmented to avoid connecting across breaks)
+      var pts=[], seg='';
+      for(var i=0;i<=480;i++){
+        var x=XMIN+(XMAX-XMIN)*i/480, y=f(x);
+        if(isFinite(y) && y>view.ymin-8*(view.ymax-view.ymin) && y<view.ymax+8*(view.ymax-view.ymin)){
+          seg += SX(x).toFixed(1)+','+Math.max(PT-80,Math.min(PB+80,SY(y))).toFixed(1)+' ';
+        }else{ if(seg.trim()){ pts.push(seg.trim()); seg=''; } }
+      }
+      if(seg.trim()) pts.push(seg.trim());
+      pts.forEach(function(p){ s+='<polyline points="'+p+'" fill="none" stroke="var(--curve)" stroke-width="2.4" stroke-linejoin="round" clip-path="url(#'+clipId+')"/>'; });
+      gStatic.innerHTML=s;
+    }
+    return { SX:SX, SY:SY, cx:cx, cy:cy, setView:setView, drawStatic:drawStatic,
+             dyn:function(html){ gDyn.innerHTML=html; }, view:view };
+  }
+
+  /* ---------- generic play/step runner ---------- */
+  function makeRunner(o){
+    // o: { prefix, doStep(cb), atEnd() -> bool, speedInput }
+    var playing=false, timer=null;
+    var play=$(o.prefix+'-play'), pi=play.querySelector('.pi'), pt=play.querySelector('.pt');
+    function speed(){ return 1580 - parseInt($(o.prefix+'-speed').value,10); }
+    function stop(){ playing=false; if(timer){clearTimeout(timer);timer=null;} pi.textContent='▶'; pt.textContent='Play'; }
+    function loop(){
+      if(!playing || o.atEnd()){ stop(); return; }
+      o.doStep(function(){ if(playing && !o.atEnd()) timer=setTimeout(loop, Math.max(60, speed()*0.16)); else stop(); });
+    }
+    function toggle(){ if(o.atEnd()) return; if(playing) stop(); else{ playing=true; pi.textContent='❚❚'; pt.textContent='Pause'; loop(); } }
+    return { speed:speed, stop:stop, toggle:toggle, isPlaying:function(){return playing;} };
+  }
+  function tween(dur, onUpdate, onDone, tokenRef){
+    if(reduced){ onUpdate(1); if(onDone)onDone(); return; }
+    var start=null, myTok=tokenRef.v;
+    function frame(ts){
+      if(myTok!==tokenRef.v) return;
+      if(!start) start=ts;
+      var p=Math.min(1,(ts-start)/dur); onUpdate(p);
+      if(p<1) requestAnimationFrame(frame); else if(onDone) onDone();
+    }
+    requestAnimationFrame(frame);
+  }
+
+  function preset(prefix, list, onPick){
+    var box=$(prefix+'-chips');
+    list.forEach(function(expr){
+      var b=document.createElement('button'); b.className='chip'; b.textContent=expr;
+      b.addEventListener('click', function(){ $(prefix+'-fx').value=expr; onPick(); });
+      box.appendChild(b);
+    });
+  }
+
+  /* ============================================================
+     BISECTION
+     ============================================================ */
+  (function(){
+    var P='bi', plot=makePlot(P,'clip-'+P);
+    var TOL=1e-7, MAXIT=45;
+    var st={}, tok={v:0};
+
+    function drawInterval(a,b,mid){
+      var s='', xa=plot.SX(a), xb=plot.SX(b);
+      s+='<rect x="'+xa.toFixed(1)+'" y="'+PT+'" width="'+(xb-xa).toFixed(1)+'" height="'+PH+'" fill="var(--band)" fill-opacity="0.16"/>';
+      s+='<line x1="'+xa.toFixed(1)+'" y1="'+PT+'" x2="'+xa.toFixed(1)+'" y2="'+PB+'" stroke="var(--band-line)" stroke-width="1.5" stroke-dasharray="4 3"/>';
+      s+='<line x1="'+xb.toFixed(1)+'" y1="'+PT+'" x2="'+xb.toFixed(1)+'" y2="'+PB+'" stroke="var(--band-line)" stroke-width="1.5" stroke-dasharray="4 3"/>';
+      s+=tag(xa,'a')+tag(xb,'b');
+      if(mid){
+        var xc=plot.SX(mid.c), yc=plot.cy(plot.SY(st.f(mid.c))), op=mid.opacity===undefined?1:mid.opacity;
+        s+='<line x1="'+xc.toFixed(1)+'" y1="'+PT+'" x2="'+xc.toFixed(1)+'" y2="'+PB+'" stroke="var(--accent)" stroke-width="1.5" opacity="'+op.toFixed(2)+'"/>';
+        s+='<circle cx="'+xc.toFixed(1)+'" cy="'+yc.toFixed(1)+'" r="5" fill="var(--accent)" opacity="'+op.toFixed(2)+'"/>';
+        s+='<circle cx="'+xc.toFixed(1)+'" cy="'+plot.SY(0).toFixed(1)+'" r="3" fill="var(--accent)" opacity="'+op.toFixed(2)+'"/>';
+      }
+      plot.dyn(s);
+    }
+    function tag(x,t){ return '<text x="'+x.toFixed(1)+'" y="'+(PB+16)+'" fill="var(--band-line)" font-size="11" font-weight="600" font-family="var(--mono)" text-anchor="middle">'+t+'</text>'; }
+
+    function stats(){
+      var c=(st.a+st.b)/2;
+      $(P+'-sN').textContent=st.n;
+      $(P+'-sC').textContent=st.n>0?fmt(c,6):'—';
+      $(P+'-sFc').textContent=st.n>0?fmt(st.f(c),6):'—';
+      $(P+'-sErr').textContent=fmt((st.b-st.a)/2,6);
+      var cv=$(P+'-sC'), fv=$(P+'-sFc');
+      cv.className='v'+(st.done?' keep':''); fv.className='v'+(st.done?' keep':'');
+    }
+    function logRow(n,a,b,c,fc,w,done){
+      var tr=document.createElement('tr'); if(done)tr.className='converged';
+      tr.innerHTML='<td>'+n+'</td><td>'+fmt(a,6)+'</td><td>'+fmt(b,6)+'</td><td>'+fmt(c,6)+'</td><td>'+fmt(fc,6)+'</td><td class="hl2">'+fmt(w,6)+'</td>';
+      $(P+'-log').appendChild(tr); var sc=tr.closest('.tbl-scroll'); if(sc) sc.scrollTop=sc.scrollHeight;
+    }
+    function doStep(cb){
+      if(st.done){ if(cb)cb(); return; }
+      var a=st.a, b=st.b, c=(a+b)/2, fc=st.f(c), fa=st.f(a);
+      var keptLeft=(fa*fc<=0), na=keptLeft?a:c, nb=keptLeft?c:b;
+      st.n++; var width=nb-na;
+      var done=(width/2<=TOL)||(Math.abs(fc)<1e-12)||st.n>=MAXIT;
+      drawInterval(a,b,{c:c,opacity:1});
+      var hold=reduced?0:Math.max(120, runner.speed()*0.35);
+      setTimeout(function(){
+        var myTok=tok.v;
+        tween(Math.max(140, runner.speed()*0.5), function(p){
+          var e=1-Math.pow(1-p,3), ca=a+(na-a)*e, cb2=b+(nb-b)*e;
+          drawInterval(ca,cb2,{c:c,opacity:1-p});
+        }, function(){
+          if(myTok!==tok.v) return;
+          st.a=na; st.b=nb; st.done=done; drawInterval(na,nb,null); stats(); logRow(st.n,na,nb,c,fc,width,done);
+          if(done) finish();
+          if(cb) cb();
+        }, tok);
+      }, hold);
+    }
+    function finish(){ runner.stop(); var c=(st.a+st.b)/2; $(P+'-msg').textContent='Converged · root ≈ '+fmt(c,6); $(P+'-msg').className='msg ok'; $(P+'-step').disabled=true; $(P+'-play').disabled=true; }
+
+    function reset(){
+      tok.v++; runner.stop();
+      var src=$(P+'-fx').value, f=compile(src);
+      $(P+'-log').innerHTML='';
+      $(P+'-step').disabled=false; $(P+'-play').disabled=false;
+      if(!f){ $(P+'-msg').textContent='Cannot read that function. Check the syntax.'; $(P+'-msg').className='msg bad'; plot.dyn(''); plot.setView(yRange(function(){return 0;},[])); plot.drawStatic(function(){return 0;}); return; }
+      st.f=f;
+      var a=parseFloat($(P+'-a').value), b=parseFloat($(P+'-b').value);
+      if(a>b){ var t=a; a=b; b=t; $(P+'-a').value=a; $(P+'-b').value=b; }
+      plot.setView(yRange(f,[f(a),f(b),0])); plot.drawStatic(f);
+      if(!(isFinite(a)&&isFinite(b)&&a<b)){ $(P+'-msg').textContent='Enter an interval with a < b.'; $(P+'-msg').className='msg'; plot.dyn(''); return; }
+      var fa=f(a), fb=f(b);
+      if(!(isFinite(fa)&&isFinite(fb))){ $(P+'-msg').textContent='f is undefined at an endpoint.'; $(P+'-msg').className='msg bad'; $(P+'-step').disabled=true; $(P+'-play').disabled=true; drawInterval(a,b,null); return; }
+      if(fa*fb>0){ $(P+'-msg').textContent='f(a)·f(b) > 0 — no sign change, root not bracketed.'; $(P+'-msg').className='msg'; $(P+'-step').disabled=true; $(P+'-play').disabled=true; drawInterval(a,b,null); return; }
+      $(P+'-msg').textContent='f(a)·f(b) < 0 — a root is bracketed. Ready.'; $(P+'-msg').className='msg ok';
+      st.a=a; st.b=b; st.n=0; st.done=false; drawInterval(a,b,null); stats();
+    }
+    var runner=makeRunner({prefix:P, doStep:doStep, atEnd:function(){return st.done;}});
+
+    preset(P, ['x^3 - x - 2','cos(x) - x','x^2 - 2','exp(x) - 5','x - 2*sin(x) - 3'], reset);
+    $(P+'-fx').addEventListener('change', reset);
+    $(P+'-a').addEventListener('change', reset);
+    $(P+'-b').addEventListener('change', reset);
+    $(P+'-step').addEventListener('click', function(){ if(!runner.isPlaying()) doStep(); });
+    $(P+'-play').addEventListener('click', runner.toggle);
+    $(P+'-reset').addEventListener('click', reset);
+    RUNNERS.bi={runner:runner, doStep:doStep, isEnd:function(){return st.done;}};
+    reset();
+  })();
+
+  /* ============================================================
+     NEWTON
+     ============================================================ */
+  (function(){
+    var P='nw', plot=makePlot(P,'clip-'+P);
+    var TOL=1e-10, MAXIT=25, DIVERGE=1e7;
+    var st={}, tok={v:0};
+
+    function base(xn){
+      var f=st.f(xn), X=plot.SX(xn), Yc=plot.SY(f), Y0=plot.SY(0);
+      var s='';
+      s+='<line x1="'+plot.cx(X).toFixed(1)+'" y1="'+plot.cy(Y0).toFixed(1)+'" x2="'+plot.cx(X).toFixed(1)+'" y2="'+plot.cy(Yc).toFixed(1)+'" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 3"/>';
+      s+='<circle cx="'+plot.cx(X).toFixed(1)+'" cy="'+plot.cy(Yc).toFixed(1)+'" r="4.5" fill="var(--ink)"/>';
+      s+='<circle cx="'+plot.cx(X).toFixed(1)+'" cy="'+Y0.toFixed(1)+'" r="3" fill="var(--ink)"/>';
+      s+='<text x="'+plot.cx(X).toFixed(1)+'" y="'+(Y0+15).toFixed(1)+'" fill="var(--ink)" font-size="11" font-family="var(--mono)" text-anchor="middle">x'+st.n+'</text>';
+      return s;
+    }
+    function tangent(xn,op){
+      var f=st.f(xn), fp=deriv(st.f,xn);
+      var yl=f+fp*(XMIN-xn), yr=f+fp*(XMAX-xn);
+      return '<line x1="'+plot.SX(XMIN).toFixed(1)+'" y1="'+plot.SY(yl).toFixed(1)+'" x2="'+plot.SX(XMAX).toFixed(1)+'" y2="'+plot.SY(yr).toFixed(1)+'" stroke="var(--accent)" stroke-width="1.8" opacity="'+op.toFixed(2)+'" clip-path="url(#clip-'+P+')"/>';
+    }
+    function slider(x,y){ return '<circle cx="'+plot.cx(plot.SX(x)).toFixed(1)+'" cy="'+plot.cy(plot.SY(y)).toFixed(1)+'" r="5.5" fill="var(--accent)"/>'; }
+    function landing(xn){ return '<circle cx="'+plot.cx(plot.SX(xn)).toFixed(1)+'" cy="'+plot.SY(0).toFixed(1)+'" r="4.5" fill="var(--accent)"/>'; }
+
+    function stats(){
+      $(P+'-sN').textContent=st.n;
+      $(P+'-sX').textContent=fmt(st.x,6);
+      $(P+'-sFx').textContent=fmt(st.f(st.x),6);
+      $(P+'-sDx').textContent=st.lastDx===undefined?'—':fmt(st.lastDx,6);
+      var xv=$(P+'-sX'), fv=$(P+'-sFx');
+      xv.className='v'+(st.done&&st.conv?' keep':st.div?' bad':''); fv.className='v'+(st.done&&st.conv?' keep':'');
+    }
+    function logRow(n,xn,f,fp,xn1,dx,conv){
+      var tr=document.createElement('tr'); if(conv)tr.className='converged';
+      tr.innerHTML='<td>'+n+'</td><td>'+fmt(xn,6)+'</td><td>'+fmt(f,6)+'</td><td>'+fmt(fp,6)+'</td><td>'+fmt(xn1,6)+'</td><td class="hl">'+fmt(dx,6)+'</td>';
+      $(P+'-log').appendChild(tr); var sc=tr.closest('.tbl-scroll'); if(sc) sc.scrollTop=sc.scrollHeight;
+    }
+    function doStep(cb){
+      if(st.done){ if(cb)cb(); return; }
+      var xn=st.x, f=st.f(xn), fp=deriv(st.f,xn);
+      if(Math.abs(fp)<1e-12){ $(P+'-msg').textContent="f′(xₙ) ≈ 0 — flat tangent, Newton stalls."; $(P+'-msg').className='msg bad'; st.done=true; ends(); if(cb)cb(); return; }
+      var xn1=xn-f/fp, dx=Math.abs(xn1-xn);
+      st.n++;
+      var div=Math.abs(xn1)>DIVERGE || !isFinite(xn1);
+      var conv=(dx<=TOL*(1+Math.abs(xn1)))||Math.abs(st.f(xn1))<1e-12;
+      var done=conv||div||st.n>=MAXIT;
+      var hold=reduced?0:Math.max(120, runner.speed()*0.30);
+      plot.dyn(base(xn)+tangent(xn,0));
+      tween(Math.max(120, runner.speed()*0.28), function(p){ plot.dyn(base(xn)+tangent(xn,0.35*p)); }, function(){
+        setTimeout(function(){
+          var myTok=tok.v;
+          tween(Math.max(160, runner.speed()*0.55), function(p){
+            var x=xn+(xn1-xn)*p, y=f*(1-p); plot.dyn(base(xn)+tangent(xn,0.35)+slider(x,y));
+          }, function(){
+            if(myTok!==tok.v) return;
+            st.x=xn1; st.lastDx=dx; st.done=done; st.conv=conv; st.div=div;
+            plot.dyn(landing(xn1)+base(xn1)); stats(); logRow(st.n,xn,f,fp,xn1,dx,conv);
+            if(done) finish(conv,div);
+            if(cb) cb();
+          }, tok);
+        }, hold);
+      }, tok);
+    }
+    function finish(conv,div){
+      runner.stop();
+      if(conv){ $(P+'-msg').textContent='Converged · root ≈ '+fmt(st.x,6); $(P+'-msg').className='msg ok'; }
+      else if(div){ $(P+'-msg').textContent='Diverging — |xₙ| blew up. Try a start nearer a root.'; $(P+'-msg').className='msg bad'; }
+      else{ $(P+'-msg').textContent='No convergence in '+MAXIT+' steps (it may be cycling).'; $(P+'-msg').className='msg bad'; }
+      ends();
+    }
+    function ends(){ $(P+'-step').disabled=true; $(P+'-play').disabled=true; }
+
+    function reset(){
+      tok.v++; runner.stop();
+      var f=compile($(P+'-fx').value);
+      $(P+'-log').innerHTML=''; $(P+'-step').disabled=false; $(P+'-play').disabled=false;
+      if(!f){ $(P+'-msg').textContent='Cannot read that function. Check the syntax.'; $(P+'-msg').className='msg bad'; plot.dyn(''); plot.setView(yRange(function(){return 0;},[])); plot.drawStatic(function(){return 0;}); return; }
+      st.f=f;
+      var x0=parseFloat($(P+'-x0').value); if(!isFinite(x0)) x0=0;
+      plot.setView(yRange(f,[f(x0),0])); plot.drawStatic(f);
+      st.x=x0; st.n=0; st.done=false; st.conv=false; st.div=false; st.lastDx=undefined;
+      plot.dyn(base(x0)); stats();
+      $(P+'-msg').textContent='Ready — tangent at x₀ = '+fmt(x0,4)+'.'; $(P+'-msg').className='msg';
+    }
+    var runner=makeRunner({prefix:P, doStep:doStep, atEnd:function(){return st.done;}});
+
+    preset(P, ['x^2 - 2','x^3 - x - 2','cos(x) - x','x^3 - 2*x + 2','atan(x)'], reset);
+    $(P+'-fx').addEventListener('change', reset);
+    $(P+'-x0').addEventListener('change', reset);
+    $(P+'-step').addEventListener('click', function(){ if(!runner.isPlaying()) doStep(); });
+    $(P+'-play').addEventListener('click', runner.toggle);
+    $(P+'-reset').addEventListener('click', reset);
+    RUNNERS.nw={runner:runner, doStep:doStep, isEnd:function(){return st.done;}};
+    reset();
+  })();
+
+  /* ============================================================
+     GRADIENT DESCENT
+     ============================================================ */
+  (function(){
+    var P='gd', plot=makePlot(P,'clip-'+P);
+    var TOL=1e-8, MAXIT=60, DIVERGE=1e7;
+    var st={}, tok={v:0};
+
+    function pointDot(xn,label){
+      var f=st.f(xn), X=plot.SX(xn), Yc=plot.SY(f), Y0=plot.SY(0);
+      var s='<line x1="'+plot.cx(X).toFixed(1)+'" y1="'+plot.cy(Y0).toFixed(1)+'" x2="'+plot.cx(X).toFixed(1)+'" y2="'+plot.cy(Yc).toFixed(1)+'" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 3"/>';
+      s+='<circle cx="'+plot.cx(X).toFixed(1)+'" cy="'+plot.cy(Yc).toFixed(1)+'" r="6" fill="var(--accent)"/>';
+      s+='<circle cx="'+plot.cx(X).toFixed(1)+'" cy="'+Y0.toFixed(1)+'" r="3" fill="var(--ink)"/>';
+      if(label) s+='<text x="'+plot.cx(X).toFixed(1)+'" y="'+(Y0+15).toFixed(1)+'" fill="var(--ink)" font-size="11" font-family="var(--mono)" text-anchor="middle">'+label+'</text>';
+      return s;
+    }
+    function tangent(xn,op){
+      var f=st.f(xn), fp=deriv(st.f,xn), d=(XMAX-XMIN)*0.09;
+      var x1=xn-d, x2=xn+d;
+      return '<line x1="'+plot.SX(x1).toFixed(1)+'" y1="'+plot.SY(f+fp*(x1-xn)).toFixed(1)+'" x2="'+plot.SX(x2).toFixed(1)+'" y2="'+plot.SY(f+fp*(x2-xn)).toFixed(1)+'" stroke="var(--ink)" stroke-width="1.6" opacity="'+op.toFixed(2)+'" clip-path="url(#clip-'+P+')"/>';
+    }
+    function arrow(xn,xn1,op){
+      var ya=plot.cy(plot.SY(0)+16), x1=plot.cx(plot.SX(xn)), x2=plot.cx(plot.SX(xn1));
+      if(Math.abs(x2-x1)<1.5) return '';
+      return '<line x1="'+x1.toFixed(1)+'" y1="'+ya.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+ya.toFixed(1)+'" stroke="var(--accent)" stroke-width="1.8" opacity="'+op.toFixed(2)+'" marker-end="url(#ah-'+P+')"/>';
+    }
+    function ball(x){ return '<circle cx="'+plot.cx(plot.SX(x)).toFixed(1)+'" cy="'+plot.cy(plot.SY(st.f(x))).toFixed(1)+'" r="6" fill="var(--accent)"/>'; }
+
+    function stats(){
+      $(P+'-sN').textContent=st.n;
+      $(P+'-sX').textContent=fmt(st.x,5);
+      $(P+'-sFx').textContent=fmt(st.f(st.x),5);
+      $(P+'-sG').textContent=fmt(deriv(st.f,st.x),5);
+      var xv=$(P+'-sX'), fv=$(P+'-sFx');
+      xv.className='v'+(st.done&&st.conv?' keep':st.div?' bad':''); fv.className='v'+(st.done&&st.conv?' keep':'');
+    }
+    function logRow(n,xn,f,fp,step,xn1,conv){
+      var tr=document.createElement('tr'); if(conv)tr.className='converged';
+      tr.innerHTML='<td>'+n+'</td><td>'+fmt(xn,5)+'</td><td>'+fmt(f,5)+'</td><td>'+fmt(fp,5)+'</td><td class="hl">'+fmt(step,5)+'</td><td>'+fmt(xn1,5)+'</td>';
+      $(P+'-log').appendChild(tr); var sc=tr.closest('.tbl-scroll'); if(sc) sc.scrollTop=sc.scrollHeight;
+    }
+    function doStep(cb){
+      if(st.done){ if(cb)cb(); return; }
+      var xn=st.x, f=st.f(xn), fp=deriv(st.f,xn), step=-st.eta*fp, xn1=xn+step;
+      st.n++;
+      var div=Math.abs(xn1)>DIVERGE || !isFinite(xn1);
+      var conv=(Math.abs(step)<=TOL*(1+Math.abs(xn1)))||Math.abs(deriv(st.f,xn1))<TOL;
+      var done=conv||div||st.n>=MAXIT;
+      plot.dyn(pointDot(xn,'x'+(st.n-1))+tangent(xn,0)+arrow(xn,xn1,0));
+      tween(Math.max(120, runner.speed()*0.30), function(p){ plot.dyn(pointDot(xn,'x'+(st.n-1))+tangent(xn,0.9*p)+arrow(xn,xn1,0.9*p)); }, function(){
+        setTimeout(function(){
+          var myTok=tok.v;
+          tween(Math.max(160, runner.speed()*0.55), function(p){
+            var x=xn+(xn1-xn)*p; plot.dyn(arrow(xn,xn1,0.3)+tangent(xn,0.25)+ball(x));
+          }, function(){
+            if(myTok!==tok.v) return;
+            st.x=xn1; st.done=done; st.conv=conv; st.div=div;
+            plot.dyn(pointDot(xn1,'x'+st.n)); stats(); logRow(st.n,xn,f,fp,step,xn1,conv);
+            if(done) finish(conv,div);
+            if(cb) cb();
+          }, tok);
+        }, reduced?0:Math.max(90, runner.speed()*0.18));
+      }, tok);
+    }
+    function finish(conv,div){
+      runner.stop();
+      if(conv){ $(P+'-msg').textContent='Converged · x* ≈ '+fmt(st.x,5); $(P+'-msg').className='msg ok'; }
+      else if(div){ $(P+'-msg').textContent='Diverging — η is too large for this curve.'; $(P+'-msg').className='msg bad'; }
+      else{ $(P+'-msg').textContent='Still descending after '+MAXIT+' steps (try a larger η).'; $(P+'-msg').className='msg'; }
+      $(P+'-step').disabled=true; $(P+'-play').disabled=true;
+    }
+
+    function reset(){
+      tok.v++; runner.stop();
+      var f=compile($(P+'-fx').value);
+      st.eta=parseFloat($(P+'-eta').value);
+      $(P+'-log').innerHTML=''; $(P+'-step').disabled=false; $(P+'-play').disabled=false;
+      if(!f){ $(P+'-msg').textContent='Cannot read that function. Check the syntax.'; $(P+'-msg').className='msg bad'; plot.dyn(''); plot.setView(yRange(function(){return 0;},[])); plot.drawStatic(function(){return 0;}); return; }
+      st.f=f;
+      var x0=parseFloat($(P+'-x0').value); if(!isFinite(x0)) x0=0;
+      plot.setView(yRange(f,[f(x0),0])); plot.drawStatic(f);
+      st.x=x0; st.n=0; st.done=false; st.conv=false; st.div=false;
+      plot.dyn(pointDot(x0,'x0')); stats();
+      $(P+'-msg').textContent='Ready · η = '+st.eta.toFixed(2)+', start x₀ = '+fmt(x0,3)+'.'; $(P+'-msg').className='msg';
+    }
+    var runner=makeRunner({prefix:P, doStep:doStep, atEnd:function(){return st.done;}});
+
+    preset(P, ['x^2','0.25*x^4','cosh(x) - 1','0.5*(x-3)^2','x^2 + 3*sin(2*x)'], reset);
+    $(P+'-fx').addEventListener('change', reset);
+    $(P+'-x0').addEventListener('change', reset);
+    $(P+'-eta').addEventListener('input', function(){ $(P+'-etaVal').textContent='η = '+parseFloat($(P+'-eta').value).toFixed(2); reset(); });
+    $(P+'-step').addEventListener('click', function(){ if(!runner.isPlaying()) doStep(); });
+    $(P+'-play').addEventListener('click', runner.toggle);
+    $(P+'-reset').addEventListener('click', reset);
+    RUNNERS.gd={runner:runner, doStep:doStep, isEnd:function(){return st.done;}};
+    reset();
+  })();
+
+  /* ============================================================
+     ADAM
+     ============================================================ */
+  (function(){
+    var P='ad', plot=makePlot(P,'clip-'+P);
+    var TOL=1e-7, MAXIT=80, DIVERGE=1e7, EPS=1e-8;
+    var st={}, tok={v:0};
+
+    function pointDot(xn,label){
+      var f=st.f(xn), X=plot.SX(xn), Yc=plot.SY(f), Y0=plot.SY(0);
+      var s='<line x1="'+plot.cx(X).toFixed(1)+'" y1="'+plot.cy(Y0).toFixed(1)+'" x2="'+plot.cx(X).toFixed(1)+'" y2="'+plot.cy(Yc).toFixed(1)+'" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 3"/>';
+      s+='<circle cx="'+plot.cx(X).toFixed(1)+'" cy="'+plot.cy(Yc).toFixed(1)+'" r="6" fill="var(--accent)"/>';
+      s+='<circle cx="'+plot.cx(X).toFixed(1)+'" cy="'+Y0.toFixed(1)+'" r="3" fill="var(--ink)"/>';
+      if(label) s+='<text x="'+plot.cx(X).toFixed(1)+'" y="'+(Y0+15).toFixed(1)+'" fill="var(--ink)" font-size="11" font-family="var(--mono)" text-anchor="middle">'+label+'</text>';
+      return s;
+    }
+    // show the raw gradient direction (grey) vs the actual Adam step (accent)
+    function gradHint(xn,op){
+      var fp=deriv(st.f,xn), d=(XMAX-XMIN)*0.09, x1=xn-d, x2=xn+d, f=st.f(xn);
+      return '<line x1="'+plot.SX(x1).toFixed(1)+'" y1="'+plot.SY(f+fp*(x1-xn)).toFixed(1)+'" x2="'+plot.SX(x2).toFixed(1)+'" y2="'+plot.SY(f+fp*(x2-xn)).toFixed(1)+'" stroke="var(--ink)" stroke-width="1.6" opacity="'+op.toFixed(2)+'" clip-path="url(#clip-'+P+')"/>';
+    }
+    function arrow(xn,xn1,op){
+      var ya=plot.cy(plot.SY(0)+16), x1=plot.cx(plot.SX(xn)), x2=plot.cx(plot.SX(xn1));
+      if(Math.abs(x2-x1)<1.5) return '';
+      return '<line x1="'+x1.toFixed(1)+'" y1="'+ya.toFixed(1)+'" x2="'+x2.toFixed(1)+'" y2="'+ya.toFixed(1)+'" stroke="var(--accent)" stroke-width="1.8" opacity="'+op.toFixed(2)+'" marker-end="url(#ah-'+P+')"/>';
+    }
+    function ball(x){ return '<circle cx="'+plot.cx(plot.SX(x)).toFixed(1)+'" cy="'+plot.cy(plot.SY(st.f(x))).toFixed(1)+'" r="6" fill="var(--accent)"/>'; }
+
+    function stats(){
+      $(P+'-sN').textContent=st.n;
+      $(P+'-sX').textContent=fmt(st.x,5);
+      $(P+'-sM').textContent=st.mhat===undefined?'—':fmt(st.mhat,5);
+      $(P+'-sV').textContent=st.vhat===undefined?'—':fmt(st.vhat,6);
+      var xv=$(P+'-sX'); xv.className='v'+(st.done&&st.conv?' keep':st.div?' bad':'');
+    }
+    function logRow(t,xn,g,mh,rv,dx,xn1,conv){
+      var tr=document.createElement('tr'); if(conv)tr.className='converged';
+      tr.innerHTML='<td>'+t+'</td><td>'+fmt(xn,4)+'</td><td>'+fmt(g,4)+'</td><td>'+fmt(mh,4)+'</td><td>'+fmt(rv,4)+'</td><td class="hl">'+fmt(dx,4)+'</td><td>'+fmt(xn1,4)+'</td>';
+      $(P+'-log').appendChild(tr); var sc=tr.closest('.tbl-scroll'); if(sc) sc.scrollTop=sc.scrollHeight;
+    }
+    function doStep(cb){
+      if(st.done){ if(cb)cb(); return; }
+      var xn=st.x, g=deriv(st.f,xn);
+      st.n++;
+      st.m = st.b1*st.m + (1-st.b1)*g;
+      st.v = st.b2*st.v + (1-st.b2)*g*g;
+      var mhat = st.m/(1-Math.pow(st.b1,st.n));
+      var vhat = st.v/(1-Math.pow(st.b2,st.n));
+      var step = -st.eta*mhat/(Math.sqrt(vhat)+EPS);
+      var xn1 = xn+step;
+      st.mhat=mhat; st.vhat=vhat;
+      var div=Math.abs(xn1)>DIVERGE || !isFinite(xn1);
+      var conv=(Math.abs(step)<=TOL*(1+Math.abs(xn1))) && Math.abs(g)<1e-4;
+      var done=conv||div||st.n>=MAXIT;
+      plot.dyn(pointDot(xn,'x'+(st.n-1))+gradHint(xn,0)+arrow(xn,xn1,0));
+      tween(Math.max(110, runner.speed()*0.28), function(p){ plot.dyn(pointDot(xn,'x'+(st.n-1))+gradHint(xn,0.85*p)+arrow(xn,xn1,0.85*p)); }, function(){
+        setTimeout(function(){
+          var myTok=tok.v;
+          tween(Math.max(150, runner.speed()*0.5), function(p){
+            var x=xn+(xn1-xn)*p; plot.dyn(arrow(xn,xn1,0.3)+gradHint(xn,0.22)+ball(x));
+          }, function(){
+            if(myTok!==tok.v) return;
+            st.x=xn1; st.done=done; st.conv=conv; st.div=div;
+            plot.dyn(pointDot(xn1,'x'+st.n)); stats();
+            logRow(st.n,xn,g,mhat,Math.sqrt(vhat),step,xn1,conv);
+            if(done) finish(conv,div);
+            if(cb) cb();
+          }, tok);
+        }, reduced?0:Math.max(80, runner.speed()*0.16));
+      }, tok);
+    }
+    function finish(conv,div){
+      runner.stop();
+      if(conv){ $(P+'-msg').textContent='Converged · x* ≈ '+fmt(st.x,5); $(P+'-msg').className='msg ok'; }
+      else if(div){ $(P+'-msg').textContent='Diverging — η is too large for this landscape.'; $(P+'-msg').className='msg bad'; }
+      else{ $(P+'-msg').textContent='Reached '+MAXIT+' steps (still wandering — a local min or slow).'; $(P+'-msg').className='msg'; }
+      $(P+'-step').disabled=true; $(P+'-play').disabled=true;
+    }
+
+    function reset(){
+      tok.v++; runner.stop();
+      var f=compile($(P+'-fx').value);
+      st.eta=parseFloat($(P+'-eta').value);
+      st.b1=Math.min(0.99999,Math.max(0,parseFloat($(P+'-b1').value))); if(!isFinite(st.b1)) st.b1=0.9;
+      st.b2=Math.min(0.999999,Math.max(0,parseFloat($(P+'-b2').value))); if(!isFinite(st.b2)) st.b2=0.999;
+      $(P+'-log').innerHTML=''; $(P+'-step').disabled=false; $(P+'-play').disabled=false;
+      if(!f){ $(P+'-msg').textContent='Cannot read that function. Check the syntax.'; $(P+'-msg').className='msg bad'; plot.dyn(''); plot.setView(yRange(function(){return 0;},[])); plot.drawStatic(function(){return 0;}); return; }
+      st.f=f;
+      var x0=parseFloat($(P+'-x0').value); if(!isFinite(x0)) x0=0;
+      plot.setView(yRange(f,[f(x0),0])); plot.drawStatic(f);
+      st.x=x0; st.n=0; st.m=0; st.v=0; st.mhat=undefined; st.vhat=undefined; st.done=false; st.conv=false; st.div=false;
+      plot.dyn(pointDot(x0,'x0')); stats();
+      $(P+'-msg').textContent='Ready · η = '+st.eta.toFixed(2)+', β₁ = '+st.b1+', β₂ = '+st.b2+'.'; $(P+'-msg').className='msg';
+    }
+    var runner=makeRunner({prefix:P, doStep:doStep, atEnd:function(){return st.done;}});
+
+    preset(P, ['x^2','x^2 + 3*sin(2*x)','0.25*x^4','0.1*x^2 + cos(x)','abs(x)'], reset);
+    $(P+'-fx').addEventListener('change', reset);
+    $(P+'-x0').addEventListener('change', reset);
+    $(P+'-b1').addEventListener('change', reset);
+    $(P+'-b2').addEventListener('change', reset);
+    $(P+'-eta').addEventListener('input', function(){ $(P+'-etaVal').textContent='η = '+parseFloat($(P+'-eta').value).toFixed(2); reset(); });
+    $(P+'-step').addEventListener('click', function(){ if(!runner.isPlaying()) doStep(); });
+    $(P+'-play').addEventListener('click', runner.toggle);
+    $(P+'-reset').addEventListener('click', reset);
+    RUNNERS.ad={runner:runner, doStep:doStep, isEnd:function(){return st.done;}};
+    reset();
+  })();
+
+  /* ---------- tabs + keyboard, scoped to the active method ---------- */
+  var active='bi';
+  document.querySelectorAll('.tab').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      // stop any running animation before leaving
+      Object.keys(RUNNERS).forEach(function(k){ RUNNERS[k].runner.stop(); });
+      document.querySelectorAll('.tab').forEach(function(b){ b.classList.remove('active'); });
+      document.querySelectorAll('.view').forEach(function(v){ v.classList.remove('active'); });
+      btn.classList.add('active');
+      active=btn.getAttribute('data-t');
+      $('view-'+active).classList.add('active');
+    });
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.target && e.target.tagName==='INPUT') return; // let form fields keep space/arrows
+    var r=RUNNERS[active]; if(!r) return;
+    if(e.code==='Space'){ e.preventDefault(); r.runner.toggle(); }
+    else if(e.code==='ArrowRight'){ e.preventDefault(); if(!r.runner.isPlaying() && !r.isEnd()) r.doStep(); }
+  });
+
+})();
+</script>
+</body>
+</html>
