@@ -1,6 +1,6 @@
 baseURL: https://ucd-cosmos-data.github.io/26-the-deep-learners/
 locale: en-us
-title: "The Deep Learners (BIF Data Science Club)"
+title: "Data Science Club (BIF)"
 theme: ["PaperMod"]
 
 params:
@@ -15,7 +15,7 @@ params:
   math: True
   profileMode:
     enabled: true
-    title: "The Deep Learners (BIF Data Science Club)"
+    title: "Data Science Club (BIF)"
     subtitle: "<Description>"
     imageUrl: "/26-the-deep-learners/bonsai.jpeg"
     imageWidth: 300
