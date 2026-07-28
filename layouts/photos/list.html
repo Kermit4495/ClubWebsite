@@ -57,7 +57,10 @@
 }
 </style>
 {{- $exts := slice "jpg" "jpeg" "png" "gif" "webp" }}
-{{- $entries := os.ReadDir "static/photos" }}
+{{- $entries := slice }}
+{{- if os.FileExists "static/photos" }}
+  {{- $entries = os.ReadDir "static/photos" }}
+{{- end }}
 {{- $images := slice }}
 {{- range $entries }}
   {{- if not .IsDir }}
