@@ -1,6 +1,6 @@
 baseURL: https://ucd-cosmos-data.github.io/26-the-deep-learners/
 locale: en-us
-title: "The Deep Learners"
+title: "The Deep Learners (BIF Data Science Club)"
 theme: ["PaperMod"]
 
 params:
