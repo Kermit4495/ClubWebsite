@@ -1,4 +1,4 @@
 ---
 title: "Traffic Light Analsysis"
-Author: "Vincent and Data Science Club"
+Author: "Data Science Club"
 ---

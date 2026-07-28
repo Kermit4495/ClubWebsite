@@ -28,6 +28,7 @@ body {
 ::selection { background: rgba(244, 114, 182, 0.35); color: #fff; }
 
 /* nav */
+.logo a { font-family: 'Fredoka', ui-monospace, sans-serif; font-weight: 600; letter-spacing: -0.01em; }
 #menu a:hover, .logo a:hover { color: #db2777; }
 
 /* ---- page headers: gradient title + blossom divider ---- */
