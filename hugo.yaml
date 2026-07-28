@@ -15,7 +15,7 @@ params:
   math: True
   profileMode:
     enabled: true
-    title: "The Deep Learners"
+    title: "The Deep Learners (BIF Data Science Club)"
     subtitle: "<Description>"
     imageUrl: "/26-the-deep-learners/bonsai.jpeg"
     imageWidth: 300
