@@ -1,4 +1,4 @@
-baseURL: https://ucd-cosmos-data.github.io/26-the-deep-learners/
+baseURL: https://kermit4495.github.io/ClubWebsite/
 locale: en-us
 title: "Data Science Club (BIF)"
 theme: ["PaperMod"]
@@ -11,13 +11,13 @@ params:
     favicon: bonsai.jpeg #the small icon shown in the browser tab
   socialIcons:
     - name: github
-      url: "https://github.com/ucd-cosmos-data/26-the-deep-learners"
+      url: "https://github.com/kermit4495/ClubWebsite"
   math: True
   profileMode:
     enabled: true
     title: "Data Science Club (BIF)"
     subtitle: "<Description>"
-    imageUrl: "/26-the-deep-learners/bonsai.jpeg"
+    imageUrl: "/ClubWebsite/bonsai.jpeg"
     imageWidth: 300
     imageHeight: 300
 
