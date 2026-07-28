@@ -23,10 +23,6 @@ params:
 
 menu:
   main:
-    - identifier: Members
-      name: Members
-      url: /members/
-      weight: 10
     - identifier: Project
       name: Project
       url: /project/
