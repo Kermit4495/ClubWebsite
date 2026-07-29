@@ -23,6 +23,10 @@ params:
 
 menu:
   main:
+    - identifier: Class
+      name: Class
+      url: /class/
+      weight: 10
     - identifier: Project
       name: Project
       url: /project/
