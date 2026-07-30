@@ -3,6 +3,9 @@
 {{- $class := "class/" | relURL }}
 {{- $project := "project/" | relURL }}
 
+{{/* Logo renders at min(100%, 34rem) = 544px, so 1088px covers 2x displays. */}}
+{{- $logo := (resources.Get "data_science_logo.png").Resize "1088x webp q85" }}
+
 <div class="dl">
   <section class="hero">
     <h1 class="brand">Data Science Club (BIF)</h1>
@@ -12,7 +15,7 @@
       <a class="link-card" href="{{ $project }}"><span class="lc-ic">&#129504;</span><span class="lc-t">Project</span><span class="lc-d">What we build</span></a>
     </div>
 
-    <img class="hero-logo" src="{{ "data_science_logo.png" | relURL }}" alt="Data Science Club logo" width="1262" height="624" loading="lazy">
+    <img class="hero-logo" src="{{ $logo.RelPermalink }}" alt="Data Science Club logo" width="{{ $logo.Width }}" height="{{ $logo.Height }}" loading="lazy">
   </section>
 </div>
 
