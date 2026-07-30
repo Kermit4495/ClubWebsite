@@ -22,13 +22,13 @@ title: "Class"
 - [Linear Regression Updated 2026.pptx](/ClubWebsite/DataScienceClub/2026_01_16/Linear%20Regression%20Updated%202026.pptx)
 - [Data Science Linear Regression Handout.docx](/ClubWebsite/DataScienceClub/Week4-5/Data%20Science%20Linear%20Regression%20Handout.docx)
 
-### Linear Regression Collab Submission
-- [DS_weeks.ipynb](/ClubWebsite/DataScienceClub/Linear%20Regression%20Collab%20Submission/DS_weeks.ipynb)
-
 ### Logistic Regression
 - [Logistic Regression.pptx](/ClubWebsite/DataScienceClub/Logistic%20Regression/Logistic%20Regression.pptx)
 
-### Google Collab Week 1 Submission
+### Ensemble Models
+- [Xgboost Model](/ClubWebsite/DataScienceClub/Ensemble%20Models/Xgboost.pdf)
+
+### Google Collab Submission
 - [Data_science_hw.ipynb](/ClubWebsite/DataScienceClub/Google%20Collab%20Week%201%20submission/Data_science_hw.ipynb)
 - [Data Science Week 2](/ClubWebsite/DataScienceClub/Google%20Collab%20Week%201%20submission/Data%20Science%20Week%202)
 - [Untitled0 (1).ipynb](/ClubWebsite/DataScienceClub/Google%20Collab%20Week%201%20submission/Untitled0%20%281%29.ipynb)
