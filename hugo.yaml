@@ -31,6 +31,10 @@ menu:
       name: Project
       url: /project/
       weight: 20
+    - identifier: Submissions
+      name: Student Submissions
+      url: /submissions/
+      weight: 30
 
 markup:
   goldmark:
