@@ -4,4 +4,64 @@ title: "Class"
 
 ## Presentations
 
-[DataScienceClub/](/ClubWebsite/DataScienceClub/)
+### Week 1
+- [Week1.pptx](/ClubWebsite/DataScienceClub/week1/Week1.pptx)
+
+### Week 2-3
+- [Copy of Week 2 Case Study Conversion Rate .ipynb](/ClubWebsite/DataScienceClub/week2-3/Copy%20of%20Week%202%20Case%20Study%20Conversion%20Rate%20.ipynb)
+- [Week 2 - Visualization Workbook.pdf](/ClubWebsite/DataScienceClub/week2-3/Week%202%20-%20Visualization%20Workbook.pdf)
+
+### Week 4-5
+- [Basic Statistics and EDA.pptx](/ClubWebsite/DataScienceClub/Week4-5/Basic%20Statistics%20and%20EDA.pptx)
+- [Case Study Conversion Rate.ipynb](/ClubWebsite/DataScienceClub/Week4-5/Case%20Study%20Conversion%20Rate.ipynb)
+- [Data Science Linear Regression Handout.docx](/ClubWebsite/DataScienceClub/Week4-5/Data%20Science%20Linear%20Regression%20Handout.docx)
+- [Linear Regression.pptx](/ClubWebsite/DataScienceClub/Week4-5/Linear%20Regression.pptx)
+- [Linear Regression Updated.pptx](/ClubWebsite/DataScienceClub/Week4-5/Linear%20Regression%20Updated.pptx)
+- [conversion_data.csv](/ClubWebsite/DataScienceClub/Week4-5/conversion_data%20.csv)
+
+### Linear Regression
+- [Linear_Regression.ipynb](/ClubWebsite/DataScienceClub/Linear%20Regression/Linear_Regression.ipynb)
+- [Untitled.ipynb](/ClubWebsite/DataScienceClub/Linear%20Regression/Untitled.ipynb)
+- [Untitled2.ipynb](/ClubWebsite/DataScienceClub/Linear%20Regression/Untitled2.ipynb)
+- [Untitled3.ipynb](/ClubWebsite/DataScienceClub/Linear%20Regression/Untitled3.ipynb)
+
+### Linear Regression Collab Submission
+- [DS_weeks.ipynb](/ClubWebsite/DataScienceClub/Linear%20Regression%20Collab%20Submission/DS_weeks.ipynb)
+
+### Logistic Regression
+- [Logistic Regression.pptx](/ClubWebsite/DataScienceClub/Logistic%20Regression/Logistic%20Regression.pptx)
+
+### 2026-01-16
+- [Linear Regression - Diabetes Prediction.ipynb](/ClubWebsite/DataScienceClub/2026_01_16/Linear%20Regression%20-%20Diabetes%20Prediction.ipynb)
+- [Linear Regression Updated 2026.pptx](/ClubWebsite/DataScienceClub/2026_01_16/Linear%20Regression%20Updated%202026.pptx)
+
+### Google Collab Week 1 Submission
+- [Data_science_hw.ipynb](/ClubWebsite/DataScienceClub/Google%20Collab%20Week%201%20submission/Data_science_hw.ipynb)
+- [Data Science Week 2](/ClubWebsite/DataScienceClub/Google%20Collab%20Week%201%20submission/Data%20Science%20Week%202)
+- [Untitled0 (1).ipynb](/ClubWebsite/DataScienceClub/Google%20Collab%20Week%201%20submission/Untitled0%20%281%29.ipynb)
+- [Untitled1.ipynb](/ClubWebsite/DataScienceClub/Google%20Collab%20Week%201%20submission/Untitled1.ipynb)
+
+### Google Spreadsheets Submission
+- [Boxuan Chen - Google Spreadsheets Submission.xlsx](/ClubWebsite/DataScienceClub/Google%20Spreadsheets%20Submission/Boxuan%20Chen%20-%20Google%20Spreadsheets%20Submission.xlsx)
+- [Charlie Zheng - Google Spreadsheets Submission.xlsx](/ClubWebsite/DataScienceClub/Google%20Spreadsheets%20Submission/Charlie%20Zheng%20-%20Google%20Spreadsheets%20Submission.xlsx)
+- [Project 1.xlsx](/ClubWebsite/DataScienceClub/Google%20Spreadsheets%20Submission/Project%201.xlsx)
+- [Copy of ERCOT Fuel Mix Report 2022.xlsx](/ClubWebsite/DataScienceClub/Google%20Spreadsheets%20Submission/Copy%20of%20ERCOT%20Fuel%20Mix%20Report%202022.xlsx)
+- [Copy of ERCOT Fuel Mix Report 2022(1).xlsx](/ClubWebsite/DataScienceClub/Google%20Spreadsheets%20Submission/Copy%20of%20ERCOT%20Fuel%20Mix%20Report%202022%281%29.xlsx)
+- [Copy of ERCOT Fuel Mix Report 2022(2).xlsx](/ClubWebsite/DataScienceClub/Google%20Spreadsheets%20Submission/Copy%20of%20ERCOT%20Fuel%20Mix%20Report%202022%282%29.xlsx)
+- [Copy of ERCOT Fuel Mix Report 2022(3).xlsx](/ClubWebsite/DataScienceClub/Google%20Spreadsheets%20Submission/Copy%20of%20ERCOT%20Fuel%20Mix%20Report%202022%283%29.xlsx)
+- [Copy of ERCOT Fuel Mix Report 2022(4).xlsx](/ClubWebsite/DataScienceClub/Google%20Spreadsheets%20Submission/Copy%20of%20ERCOT%20Fuel%20Mix%20Report%202022%284%29.xlsx)
+- [Copy of ERCOT Fuel Mix Report 2022(5).xlsx](/ClubWebsite/DataScienceClub/Google%20Spreadsheets%20Submission/Copy%20of%20ERCOT%20Fuel%20Mix%20Report%202022%285%29.xlsx)
+- [Copy of ERCOT Fuel Mix Report 2022(6).xlsx](/ClubWebsite/DataScienceClub/Google%20Spreadsheets%20Submission/Copy%20of%20ERCOT%20Fuel%20Mix%20Report%202022%286%29.xlsx)
+
+### Traffic Light Project
+- [Project Proposal.docx](/ClubWebsite/DataScienceClub/Traffic%20Light%20Project/Project%20Proposal.docx)
+- [Notes.docx](/ClubWebsite/DataScienceClub/Traffic%20Light%20Project/Notes.docx)
+- [Data_Collection_Sheet.xlsx](/ClubWebsite/DataScienceClub/Traffic%20Light%20Project/Data_Collection_Sheet.xlsx)
+- [Tally Log.docx](/ClubWebsite/DataScienceClub/Traffic%20Light%20Project/Tally%20Log.docx)
+- [Fremont-Mission Blvd.pdf](/ClubWebsite/DataScienceClub/Traffic%20Light%20Project/Fremont-Mission%20Blvd.pdf)
+
+### World History
+- [IMG_26DF0D37-121E-4C57-A8FE-7F98900BD48D.JPEG](/ClubWebsite/DataScienceClub/World%20History/IMG_26DF0D37-121E-4C57-A8FE-7F98900BD48D.JPEG)
+
+### Other
+- [conversion_data.csv](/ClubWebsite/DataScienceClub/conversion_data.csv)
