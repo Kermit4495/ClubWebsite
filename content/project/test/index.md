@@ -1,4 +1,4 @@
 ---
-title: "Traffic Light Analsysis"
+title: "Traffic Light Analysis"
 Author: "Data Science Club"
 ---
