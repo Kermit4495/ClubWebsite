@@ -4,103 +4,34 @@
 {{- $project := "project/" | relURL }}
 
 <div class="dl">
-  <section class="grove" id="grove">
-    <div class="grove-sticky">
+  <section class="hero">
+    <span class="eyebrow">DATA SCIENCE CLUB</span>
+    <h1 class="brand">Data Science Club (BIF)</h1>
 
-      <div class="sky" aria-hidden="true">
-        <svg id="backdrop" viewBox="0 0 1000 640" preserveAspectRatio="xMidYMax slice">
-          <defs>
-            <linearGradient id="dl-river" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0" stop-color="#0ea5e9"/>
-              <stop offset="0.6" stop-color="#22d3ee"/>
-              <stop offset="1" stop-color="#f0fdfa"/>
-            </linearGradient>
-          </defs>
-          <path d="M0,300 Q260,255 520,292 T1000,286 L1000,640 L0,640 Z" fill="#bae6fd"/>
-          <path d="M0,352 Q320,315 640,356 T1000,352 L1000,640 L0,640 Z" fill="#7dd3fc"/>
-          <path d="M0,432 Q250,398 520,442 T1000,436 L1000,640 L0,640 Z" fill="#38bdf8"/>
-          <path d="M690,302 C660,362 736,404 678,464 C640,520 670,568 640,640 L784,640 C760,566 800,514 746,458 C700,404 728,356 712,302 Z" fill="url(#dl-river)" opacity="0.92"/>
-          <path d="M700,308 C674,364 744,406 690,462 C654,518 682,566 660,634" fill="none" stroke="#ffffff" stroke-width="3" stroke-linecap="round" opacity="0.55"/>
-        </svg>
-        <div class="grow-light" id="grow-light"></div>
-        <div class="bloom-glow" id="bloom-glow"></div>
-        <div class="stars"></div>
-      </div>
+    <div class="intro">
+      <span class="eyebrow">WHO WE ARE</span>
+      <h2>We are BIF students in Data Science Club</h2>
+    </div>
 
-      <div class="spores" aria-hidden="true">
-        <span class="spore"></span><span class="spore"></span><span class="spore"></span>
-        <span class="spore"></span><span class="spore"></span><span class="spore"></span>
-        <span class="spore"></span><span class="spore"></span>
-      </div>
+    <div class="intro">
+      <span class="eyebrow">WHAT WE&rsquo;RE BUILDING</span>
+      <h2>We are analyzing big data using deep learning and other similar methods</h2>
+      <p>Going through the data science process, from asking questions, acquiring data, and even modeling.</p>
+    </div>
 
-      <div class="petals" id="petals" aria-hidden="true"></div>
-      <div class="pile" id="pile" aria-hidden="true"></div>
-
-      <div class="scene">
-        <svg id="bonsai" viewBox="0 0 900 640" preserveAspectRatio="xMidYMax meet" aria-label="A growing bonsai"></svg>
-      </div>
-
-      <!-- HUD -->
-      <!-- <div class="hud" aria-hidden="true">
-        <div class="hud-row"><span class="hud-k">EPOCH</span><span class="hud-v" id="h-epoch">0000</span></div>
-        <div class="hud-row"><span class="hud-k">LOSS</span><span class="hud-v" id="h-loss">1.000</span></div>
-        <div class="hud-row"><span class="hud-k">FOCUS</span><span class="hud-v" id="h-focus">0%</span></div>
-      </div> -->
-
-      <!-- story beats -->
-      <div class="beats">
-        <div class="beat" data-start="0.00" data-end="0.14">
-          <h1 class="brand">Data Science Club (BIF)</h1>
-        </div>
-
-        <div class="beat" data-start="0.15" data-end="0.35">
-          <span class="eyebrow">WHO WE ARE</span>
-          <h2>We are BIF students in Data Science Club</h2>
-        </div>
-
-        <div class="beat" data-start="0.37" data-end="0.67">
-          <span class="eyebrow">WHAT WE&rsquo;RE BUILDING</span>
-          <h2>We are analyzing big data using deep learning and other similar methods</h2>
-          <p>Going through the data science process, from asking questions, acquiring data, and even modeling.</p>
-        </div>
-
-        <div class="beat" data-start="0.67" data-end="0.9">
-          <span class="eyebrow">FULLY GROWN</span>
-          <h2>From data to understanding.</h2>
-          <p>Scroll on to explore what we&rsquo;ve been doing.</p>
-        </div> 
-      </div>
-
-      <!-- finale -->
-      <div class="finale" id="finale">
-        <span class="eyebrow">EXPLORE THE GARDEN</span>
-        <div class="leaves">
-          <a class="leaf-card" href="{{ $class }}" style="--a:#3fd39a"><span class="lc-ic">&#128101;</span><span class="lc-t">Class</span><span class="lc-d">The learners</span></a>
-          <a class="leaf-card" href="{{ $project }}" style="--a:#22d3ee"><span class="lc-ic">&#129504;</span><span class="lc-t">Project</span><span class="lc-d">What we build</span></a>
-        </div>
-      </div>
-
-      <!-- scroll cue -->
-      <div class="cue" id="cue" aria-hidden="true">
-        <span>SCROLL TO GROW</span>
-        <span class="cue-line"></span>
-      </div>
-
-      <!-- bottom progress rail -->
-      <div class="rail" aria-hidden="true"><span class="rail-fill" id="rail-fill"></span></div>
+    <div class="links">
+      <a class="link-card" href="{{ $class }}"><span class="lc-ic">&#128101;</span><span class="lc-t">Class</span><span class="lc-d">The learners</span></a>
+      <a class="link-card" href="{{ $project }}"><span class="lc-ic">&#129504;</span><span class="lc-t">Project</span><span class="lc-d">What we build</span></a>
     </div>
   </section>
 </div>
 
 <style>
-  /* full-bleed homepage: relax PaperMod's centered column (override, theme untouched) */
   main.main { max-width: 100%; padding: 0; margin: 0; }
-  html { scroll-behavior: auto; }
 
   .dl {
     --ink: #0f172a;
     --dim: #475569;
-    --faint: #64748b;
     --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
     --emerald: #0d9488;
     width: 100%;
@@ -108,170 +39,33 @@
     color: var(--ink);
   }
 
-  /* scroll scene: tall section with a pinned viewport */
-  .grove { position: relative; height: 620vh; }
-  .grove-sticky {
-    position: sticky; top: 0; height: 100vh; overflow: hidden;
-    display: flex; align-items: center; justify-content: center;
+  .hero {
+    max-width: 760px; margin: 0 auto; padding: 4.5rem 1.5rem 5rem;
+    display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.6rem;
   }
 
-  .sky {
-    position: absolute; inset: 0; z-index: 0;
-    background:
-      radial-gradient(120% 90% at 50% 120%, #7dd3fc 0%, #38bdf8 42%, #e0f2fe 74%),
-      linear-gradient(180deg, #bae6fd 0%, #e0f2fe 100%);
-  }
-  .grow-light {
-    position: absolute; left: 50%; bottom: 4%; width: 70vw; height: 70vh; transform: translateX(-50%);
-    opacity: 0; pointer-events: none;
-    background: radial-gradient(circle, rgba(13,148,136,0.38), rgba(56,189,248,0.14) 40%, transparent 68%);
-    filter: blur(20px);
-  }
-  .bloom-glow {
-    position: absolute; left: 50%; top: 40%; width: 58vw; height: 46vh; transform: translate(-50%, -50%);
-    opacity: 0; pointer-events: none;
-    background: radial-gradient(circle, rgba(244,114,182,0.36), rgba(251,191,36,0.18) 46%, transparent 72%);
-    filter: blur(26px);
-  }
-  #backdrop {
-    position: absolute; inset: 0; width: 100%; height: 100%;
-    opacity: 0; will-change: filter, opacity;
-  }
-  .stars {
-    position: absolute; inset: 0; opacity: 0.6;
-    background-image: radial-gradient(1.5px 1.5px at 20% 25%, #f472b6 55%, transparent),
-      radial-gradient(1.5px 1.5px at 70% 18%, #22d3ee 55%, transparent),
-      radial-gradient(1.5px 1.5px at 84% 42%, #a78bfa 55%, transparent),
-      radial-gradient(1.5px 1.5px at 32% 12%, #facc15 55%, transparent),
-      radial-gradient(1.5px 1.5px at 55% 30%, #34d399 55%, transparent);
-  }
-
-  /* falling petals & leaves */
-  .petals { position: absolute; inset: 0; z-index: 6; pointer-events: none; overflow: hidden; }
-  .petal {
-    position: absolute; top: -6vh; width: 13px; height: 13px; opacity: 0;
-    border-radius: 100% 0 100% 0; will-change: transform, opacity;
-    animation-name: petal-fall; animation-timing-function: linear; animation-iteration-count: infinite;
-    box-shadow: 0 0 6px rgba(0,0,0,0.15);
-  }
-  @keyframes petal-fall {
-    0%   { transform: translateY(0) translateX(0) rotate(0deg); opacity: 0; }
-    8%   { opacity: 0.95; }
-    25%  { transform: translateY(28vh) translateX(26px) rotate(120deg); }
-    50%  { transform: translateY(56vh) translateX(-22px) rotate(220deg); }
-    75%  { transform: translateY(84vh) translateX(22px) rotate(320deg); }
-    92%  { opacity: 0.9; }
-    100% { transform: translateY(116vh) translateX(-8px) rotate(420deg); opacity: 0; }
-  }
-
-  /* petals collecting at the bottom, revealed by scroll */
-  .pile { position: absolute; left: 0; right: 0; bottom: 0; height: 96px; z-index: 3; pointer-events: none; overflow: hidden; }
-  .pile-petal {
-    position: absolute; bottom: 0; border-radius: 100% 0 100% 0; opacity: 0;
-    transform: translateY(-46px) rotate(0deg); will-change: transform, opacity;
-    transition: opacity 0.5s ease, transform 0.8s cubic-bezier(0.34, 1.3, 0.5, 1);
-  }
-
-  .spores { position: absolute; inset: 0; z-index: 1; pointer-events: none; }
-  .spore {
-    position: absolute; width: 5px; height: 5px; border-radius: 50%; opacity: 0;
-    background: radial-gradient(circle, #7ff0c2, rgba(63,211,154,0.2));
-    box-shadow: 0 0 8px rgba(63,211,154,0.7);
-  }
-  .spore:nth-child(1) { left: 18%; bottom: 30%; } .spore:nth-child(2) { left: 30%; bottom: 22%; }
-  .spore:nth-child(3) { left: 44%; bottom: 34%; } .spore:nth-child(4) { left: 58%; bottom: 26%; }
-  .spore:nth-child(5) { left: 68%; bottom: 38%; } .spore:nth-child(6) { left: 78%; bottom: 24%; }
-  .spore:nth-child(7) { left: 24%; bottom: 40%; } .spore:nth-child(8) { left: 84%; bottom: 44%; }
-
-  .scene { position: absolute; left: 0; right: 0; bottom: 3vh; z-index: 2; height: 66vh; display: flex; align-items: flex-end; justify-content: center; }
-  #bonsai { width: min(90vw, 640px); height: 100%; overflow: visible; }
-  #foliage { will-change: filter; }
-  .pad { will-change: transform, opacity; }
-
-  /* HUD */
-  .hud {
-    position: absolute; bottom: 3.5vh; left: max(18px, 4vw); z-index: 4;
-    display: flex; flex-direction: column; gap: 6px; font-family: var(--mono);
-  }
-  .hud-row { display: flex; align-items: baseline; gap: 10px; }
-  .hud-k { font-size: 0.6rem; letter-spacing: 0.18em; color: var(--faint); width: 46px; }
-  .hud-v { font-size: 0.92rem; color: var(--emerald); font-variant-numeric: tabular-nums; }
-
-  /* story beats */
-  .beats { position: absolute; inset: 0; z-index: 3; pointer-events: none; }
-  .beat {
-    position: absolute; left: 50%; top: 9vh; transform: translateX(-50%);
-    width: min(90vw, 640px); text-align: center; opacity: 0;
-    padding: 1.4rem 1.8rem;
-    background: rgba(255,255,255,0.82);
-    border: 1px solid rgba(255,255,255,0.7);
-    border-radius: 28px;
-    box-shadow: 0 20px 60px rgba(15,23,42,0.14);
-    backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
-  }
-  .eyebrow { display: inline-block; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.24em; color: var(--emerald); margin-bottom: 0.7rem; }
-  .beat h1.brand { margin: 0; font-family: 'Fredoka', var(--mono), sans-serif; font-size: clamp(2.6rem, 8vw, 5rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1;
+  .eyebrow { display: inline-block; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.24em; color: var(--emerald); }
+  .brand { margin: 0; font-family: 'Fredoka', var(--mono), sans-serif; font-size: clamp(2.4rem, 7vw, 4rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05;
     background: linear-gradient(115deg, #0ea5e9 0%, #14b8a6 30%, #a855f7 65%, #ec4899 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .beat h2 { margin: 0; font-size: clamp(1.5rem, 3.6vw, 2.3rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; color: #0f172a; }
-  .beat p, .beat .lede { margin: 0.8rem auto 0; max-width: 34rem; color: var(--dim); font-size: clamp(0.98rem, 2vw, 1.12rem); line-height: 1.55; }
-  .beat .lede { color: #334155; }
 
-  /* finale */
-  .finale {
-    position: absolute; inset: 0; z-index: 5;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    padding: 0 1.5rem; text-align: center; opacity: 0; pointer-events: none;
-  }
-  .finale > * { width: min(94vw, 760px); }
-  .finale > .eyebrow, .finale .course-link {
-    background: rgba(255,255,255,0.85);
-    padding: 0.4em 1em;
-    border-radius: 999px;
-    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
-  }
-  .leaves { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.8rem; margin: 1.4rem 0 1.2rem; }
-  .leaf-card {
+  .intro { display: flex; flex-direction: column; gap: 0.6rem; max-width: 40rem; }
+  .intro h2 { margin: 0; font-size: clamp(1.35rem, 3vw, 1.9rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; color: var(--ink); }
+  .intro p { margin: 0; color: var(--dim); font-size: clamp(0.98rem, 2vw, 1.1rem); line-height: 1.55; }
+
+  .links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; margin-top: 0.8rem; width: min(100%, 26rem); }
+  .link-card {
     display: flex; flex-direction: column; align-items: center; gap: 4px;
-    padding: 1.2rem 0.7rem; border-radius: 16px; text-decoration: none; opacity: 0;
-    border: 1px solid rgba(255,255,255,0.9);
+    padding: 1.2rem 0.7rem; border-radius: 16px; text-decoration: none;
+    border: 1px solid rgba(15,23,42,0.08);
     background: linear-gradient(180deg, rgba(255,255,255,0.92), rgba(255,255,255,0.78));
-    box-shadow: 0 10px 30px rgba(15,23,42,0.10);
-    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    box-shadow: 0 10px 30px rgba(15,23,42,0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
-  .leaf-card:hover { transform: translateY(-5px); border-color: var(--a); box-shadow: 0 14px 40px rgba(15,23,42,0.18), 0 0 24px -6px var(--a); }
+  .link-card:hover { transform: translateY(-3px); box-shadow: 0 14px 30px rgba(15,23,42,0.14); }
   .lc-ic { font-size: 1.7rem; }
-  .lc-t { font-weight: 700; color: #0f172a; }
+  .lc-t { font-weight: 700; color: var(--ink); }
   .lc-d { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.1em; color: var(--dim); }
-  .course-link { display: inline-block; margin-top: 0.4rem; font-family: var(--mono); font-size: 0.78rem; color: var(--emerald); text-decoration: none; border-bottom: 1px solid rgba(13,148,136,0.35); }
-
-  /* scroll cue */
-  .cue { position: absolute; left: 50%; bottom: 26px; transform: translateX(-50%); z-index: 4;
-    display: flex; flex-direction: column; align-items: center; gap: 8px;
-    font-family: var(--mono); font-size: 0.6rem; letter-spacing: 0.28em; color: var(--faint);
-    background: rgba(255,255,255,0.75); padding: 8px 16px; border-radius: 999px;
-    backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px); }
-  .cue-line { width: 1px; height: 40px; background: linear-gradient(var(--faint), transparent); position: relative; overflow: hidden; }
-  .cue-line::after { content: ""; position: absolute; left: 0; top: -50%; width: 1px; height: 50%; background: var(--emerald); animation: cue-run 1.7s ease-in-out infinite; }
-
-  /* progress rail */
-  .rail { position: absolute; left: 0; right: 0; bottom: 0; height: 3px; z-index: 4; background: rgba(15,23,42,0.08); }
-  .rail-fill { display: block; height: 100%; transform-origin: left; transform: scaleX(0);
-    background: linear-gradient(90deg, var(--emerald), #22d3ee); }
-
-  @keyframes cue-run { 0% { top: -50%; } 100% { top: 100%; } }
-
-  @media (max-width: 620px) {
-    .beat { top: 7vh; }
-    .scene { height: 60vh; }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .cue-line::after { animation: none; }
-  }
 </style>
-
-<script src="{{ "js/anime.min.js" | relURL }}"></script>
-<script src="{{ "js/bonsai-scroll.js" | relURL }}" defer></script>
 
 {{- end }}
