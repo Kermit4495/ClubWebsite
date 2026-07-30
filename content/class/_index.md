@@ -28,7 +28,7 @@ title: "Class"
 ### Ensemble Models
 - [Xgboost Model](/ClubWebsite/DataScienceClub/Ensemble%20Models/Xgboost.pdf)
 
-### Google Collab Week 1 Submission
+### Google Collab Submission
 - [Data_science_hw.ipynb](/ClubWebsite/DataScienceClub/Google%20Collab%20Week%201%20submission/Data_science_hw.ipynb)
 - [Data Science Week 2](/ClubWebsite/DataScienceClub/Google%20Collab%20Week%201%20submission/Data%20Science%20Week%202)
 - [Untitled0 (1).ipynb](/ClubWebsite/DataScienceClub/Google%20Collab%20Week%201%20submission/Untitled0%20%281%29.ipynb)
