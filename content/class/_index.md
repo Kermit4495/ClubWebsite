@@ -5,7 +5,7 @@ title: "Class"
 ## Presentations
 
 ### Week 1
-- [Welcome to Data Science Club!](/ClubWebsite/DataScienceClub/week1/Intro_DS.pdf)
+- [Welcome to Data Science Club!](/ClubWebsite/class/intro_ds/)
 
 ### Week 2-3
 - [Copy of Week 2 Case Study Conversion Rate .ipynb](/ClubWebsite/DataScienceClub/week2-3/Copy%20of%20Week%202%20Case%20Study%20Conversion%20Rate%20.ipynb)
