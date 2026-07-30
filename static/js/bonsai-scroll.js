@@ -301,6 +301,11 @@
   var glow = document.getElementById("grow-light");
   var bloomGlow = document.getElementById("bloom-glow");
   var backdrop = document.getElementById("backdrop");
+  if (backdrop) {
+    backdrop.style.backgroundImage = "url('data-team-structure-scaled.jpg')";
+    backdrop.style.backgroundSize = "cover";
+    backdrop.style.backgroundPosition = "center";
+  }
   var panels = Array.prototype.slice.call(document.querySelectorAll(".beat"));
   var finale = document.getElementById("finale");
   var cards = document.querySelectorAll("#finale .leaf-card");
