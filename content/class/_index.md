@@ -28,6 +28,9 @@ title: "Class"
 ### Logistic Regression
 - [Logistic Regression.pptx](/ClubWebsite/DataScienceClub/Logistic%20Regression/Logistic%20Regression.pptx)
 
+### Ensemble Models
+- [Xgboost Model](/ClubWebsite/DataScienceClub/Ensemble%20Models/Xgboost.pdf)
+
 ### Google Collab Week 1 Submission
 - [Data_science_hw.ipynb](/ClubWebsite/DataScienceClub/Google%20Collab%20Week%201%20submission/Data_science_hw.ipynb)
 - [Data Science Week 2](/ClubWebsite/DataScienceClub/Google%20Collab%20Week%201%20submission/Data%20Science%20Week%202)
