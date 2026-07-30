@@ -31,14 +31,6 @@ menu:
       name: Project
       url: /project/
       weight: 20
-    - identifier: Logs
-      name: Logs
-      url: /logs/
-      weight: 30
-    - identifier: Photos
-      name: Photos
-      url: /photos/
-      weight: 40
 
 markup:
   goldmark:
