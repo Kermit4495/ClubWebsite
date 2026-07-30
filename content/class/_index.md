@@ -9,7 +9,7 @@ title: "Class"
 
 ### Python and Pandas Basics
 - [Case Study Conversion Rate.ipynb](/ClubWebsite/DataScienceClub/week2-3/Copy%20of%20Week%202%20Case%20Study%20Conversion%20Rate%20.ipynb)
-- [Week 2 - Visualization Workbook.pdf](/ClubWebsite/DataScienceClub/week2-3/Week%202%20-%20Visualization%20Workbook.pdf)
+- [Visualization Workbook.pdf](/ClubWebsite/DataScienceClub/week2-3/Week%202%20-%20Visualization%20Workbook.pdf)
 - [conversion_data.csv](/ClubWebsite/DataScienceClub/conversion_data.csv)
 
 ### Basic Statistics
