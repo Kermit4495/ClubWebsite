@@ -8,17 +8,6 @@
     <span class="eyebrow">DATA SCIENCE CLUB</span>
     <h1 class="brand">Data Science Club (BIF)</h1>
 
-    <div class="intro">
-      <span class="eyebrow">WHO WE ARE</span>
-      <h2>We are BIF students in Data Science Club</h2>
-    </div>
-
-    <div class="intro">
-      <span class="eyebrow">WHAT WE&rsquo;RE BUILDING</span>
-      <h2>We are analyzing big data using deep learning and other similar methods</h2>
-      <p>Going through the data science process, from asking questions, acquiring data, and even modeling.</p>
-    </div>
-
     <div class="links">
       <a class="link-card" href="{{ $class }}"><span class="lc-ic">&#128101;</span><span class="lc-t">Class</span><span class="lc-d">The learners</span></a>
       <a class="link-card" href="{{ $project }}"><span class="lc-ic">&#129504;</span><span class="lc-t">Project</span><span class="lc-d">What we build</span></a>
@@ -48,10 +37,6 @@
   .brand { margin: 0; font-family: 'Fredoka', var(--mono), sans-serif; font-size: clamp(2.4rem, 7vw, 4rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05;
     background: linear-gradient(115deg, #0ea5e9 0%, #14b8a6 30%, #a855f7 65%, #ec4899 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent; }
-
-  .intro { display: flex; flex-direction: column; gap: 0.6rem; max-width: 40rem; }
-  .intro h2 { margin: 0; font-size: clamp(1.35rem, 3vw, 1.9rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.2; color: var(--ink); }
-  .intro p { margin: 0; color: var(--dim); font-size: clamp(0.98rem, 2vw, 1.1rem); line-height: 1.55; }
 
   .links { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0.9rem; margin-top: 0.8rem; width: min(100%, 26rem); }
   .link-card {
