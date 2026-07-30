@@ -5,13 +5,14 @@
 
 <div class="dl">
   <section class="hero">
-    <span class="eyebrow">DATA SCIENCE CLUB</span>
     <h1 class="brand">Data Science Club (BIF)</h1>
 
     <div class="links">
       <a class="link-card" href="{{ $class }}"><span class="lc-ic">&#128101;</span><span class="lc-t">Class</span><span class="lc-d">The learners</span></a>
       <a class="link-card" href="{{ $project }}"><span class="lc-ic">&#129504;</span><span class="lc-t">Project</span><span class="lc-d">What we build</span></a>
     </div>
+
+    <img class="hero-logo" src="{{ "data_science_logo.png" | relURL }}" alt="Data Science Club logo" width="1262" height="624" loading="lazy">
   </section>
 </div>
 
@@ -22,7 +23,6 @@
     --ink: #0f172a;
     --dim: #475569;
     --mono: ui-monospace, "SF Mono", "JetBrains Mono", Menlo, monospace;
-    --emerald: #0d9488;
     width: 100%;
     background: linear-gradient(180deg, #e0f2fe 0%, #f0f9ff 100%);
     color: var(--ink);
@@ -33,7 +33,6 @@
     display: flex; flex-direction: column; align-items: center; text-align: center; gap: 1.6rem;
   }
 
-  .eyebrow { display: inline-block; font-family: var(--mono); font-size: 0.66rem; letter-spacing: 0.24em; color: var(--emerald); }
   .brand { margin: 0; font-family: 'Fredoka', var(--mono), sans-serif; font-size: clamp(2.4rem, 7vw, 4rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.05;
     background: linear-gradient(115deg, #0ea5e9 0%, #14b8a6 30%, #a855f7 65%, #ec4899 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent; }
@@ -51,6 +50,12 @@
   .lc-ic { font-size: 1.7rem; }
   .lc-t { font-weight: 700; color: var(--ink); }
   .lc-d { font-family: var(--mono); font-size: 0.64rem; letter-spacing: 0.1em; color: var(--dim); }
+
+  .hero-logo {
+    width: min(100%, 34rem); height: auto; margin-top: 0.8rem;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(15,23,42,0.08);
+  }
 </style>
 
 {{- end }}
